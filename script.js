@@ -1,63 +1,56 @@
-async function fetchIssues() {
-    try {
-        const response = await fetch("issues.json");
-        const issues = await response.json();
-        displayIssues(issues);
-    } catch (error) {
-        console.error("Fehler beim Abrufen der Issues:", error);
+const issues = [
+    {
+        title: "Profilseite nach Login",
+        number: 29,
+        url: "https://github.com/twodarkk/streamercards/issues/29",
+        status: "Geplant",
+        priority: "Wichtig",
+        start_date: "2025-02-26",
+        author: { login: "twodarkk", avatar_url: "https://avatars.githubusercontent.com/u/29480360?v=4" },
+        created_at: "2025-02-26T15:36:35Z",
+        updated_at: "2025-02-26T15:41:10Z"
+    },
+    {
+        title: "Neues Navigationsmenü",
+        number: 31,
+        url: "https://github.com/twodarkk/streamercards/issues/31",
+        status: "Konzeptionierung",
+        priority: "Mittel",
+        start_date: "2025-02-28",
+        author: { login: "twodarkk", avatar_url: "https://avatars.githubusercontent.com/u/29480360?v=4" },
+        created_at: "2025-02-27T10:00:00Z",
+        updated_at: "2025-02-28T12:00:00Z"
     }
-}
+];
 
-function displayIssues(issues) {
-    const columns = {
-        "Geplant": document.querySelector("#geplant .issues"),
-        "Konzeptionierung": document.querySelector("#konzeptionierung .issues"),
-        "In Bearbeitung": document.querySelector("#in-bearbeitung .issues"),
-        "Im Test": document.querySelector("#im-test .issues"),
-        "Beta-/Testphase": document.querySelector("#beta-testphase .issues"),
-        "Abgeschlossen": document.querySelector("#abgeschlossen .issues"),
-        "Ungültig": document.querySelector("#ungueltig .issues")
-    };
-
-    Object.values(columns).forEach(column => column.innerHTML = "");
-
+function loadIssues() {
     issues.forEach(issue => {
-        const issueDiv = document.createElement("div");
-        issueDiv.className = "issue";
-        issueDiv.innerHTML = `
-            <strong>#${issue.number}</strong>: ${issue.title}
-            <br><span style="color: ${getPriorityColor(issue.priority)}">${issue.priority}</span>
+        const card = document.createElement("div");
+        card.className = "kanban-card";
+        card.innerHTML = `
+            <small>#${issue.number}</small> <strong>${issue.title}</strong>
         `;
-        issueDiv.onclick = () => openModal(issue);
-
-        const status = issue.status;
-        if (columns[status]) {
-            columns[status].appendChild(issueDiv);
-        }
+        card.onclick = () => showIssueDetails(issue);
+        document.getElementById(issue.status).appendChild(card);
     });
 }
 
-function getPriorityColor(priority) {
-    switch (priority) {
-        case "Wichtig": return "red";
-        case "Mittel": return "orange";
-        case "Niedrig": return "green";
-        default: return "white";
-    }
+function showIssueDetails(issue) {
+    document.getElementById("issueTitle").textContent = issue.title;
+    document.getElementById("issueNumber").textContent = issue.number;
+    document.getElementById("issueStatus").textContent = issue.status;
+    document.getElementById("issuePriority").textContent = issue.priority;
+    document.getElementById("issueStartDate").textContent = issue.start_date;
+    document.getElementById("issueAuthor").textContent = issue.author.login;
+    document.getElementById("issueAuthorAvatar").src = issue.author.avatar_url;
+    document.getElementById("issueCreatedAt").textContent = issue.created_at;
+    document.getElementById("issueUpdatedAt").textContent = issue.updated_at;
+    document.getElementById("issueLink").href = issue.url;
+    document.getElementById("issueDetailsOverlay").style.display = "flex";
 }
 
-function openModal(issue) {
-    document.getElementById("modal-title").innerText = `#${issue.number} - ${issue.title}`;
-    document.getElementById("modal-status").innerText = issue.status;
-    document.getElementById("modal-priority").innerText = issue.priority || "Keine Priorität";
-    document.getElementById("modal-start").innerText = issue.start_date || "Kein Datum";
-    document.getElementById("modal-link").href = issue.url;
-
-    document.getElementById("issueModal").style.display = "flex";
+function closeIssueDetails() {
+    document.getElementById("issueDetailsOverlay").style.display = "none";
 }
 
-document.querySelector(".close").onclick = () => {
-    document.getElementById("issueModal").style.display = "none";
-};
-
-fetchIssues();
+document.addEventListener("DOMContentLoaded", loadIssues);
