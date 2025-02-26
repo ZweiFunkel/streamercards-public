@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Debug API Response (Rohdaten)
+      - name: Fetch Issues from GitHub Project
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
@@ -20,9 +20,28 @@ jobs:
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
                -d '{
-                  "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 10) { nodes { content { ... on Issue { title number url } } } } } } }"
+                  "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } } } } } }"
                 }' \
                 https://api.github.com/graphql | tee response.json
           
           echo "==== API-Response ausgeben ===="
           cat response.json
+
+      - name: Process API Response and Create issues.json
+        run: |
+          jq 'if .data.node.items.nodes then .data.node.items.nodes | map({title: .content.title, number: .content.number, url: .content.url}) else [] end' response.json > issues.json
+          
+          echo "==== Generierte issues.json ===="
+          cat issues.json
+
+      - name: Commit and Push Issues Data
+        run: |
+          if [ -s issues.json ]; then
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+            git add issues.json
+            git commit -m "Updated issues JSON" || echo "No changes to commit"
+            git push
+          else
+            echo "issues.json ist leer, nichts zu committen."
+          fi
