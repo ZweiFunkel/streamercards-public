@@ -10,6 +10,43 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Erstelle GraphQL-Query als Datei
+        run: |
+          cat > query.json <<EOF
+          {
+            "query": "query FetchProjectIssues(\$projectId: ID!) {
+               node(id: \$projectId) {
+                 ... on ProjectV2 {
+                   items(first: 5) {
+                     nodes {
+                       content {
+                         ... on Issue {
+                           title
+                           number
+                           url
+                           state
+                         }
+                       }
+                       fieldValues(first: 5) {
+                         nodes {
+                           __typename
+                           ... on ProjectV2ItemFieldSingleSelectValue {
+                             name
+                             field { name }
+                           }
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
+             }",
+            "variables": {
+              "projectId": "PVT_kwHOAcHVqM4AzEVA"
+            }
+          }
+          EOF
+
       - name: Fetch Issues from GitHub Project
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
@@ -19,38 +56,7 @@ jobs:
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
                --url "https://api.github.com/graphql" \
-               -d '{
-                 "query": "query FetchProjectIssues($projectId: ID!) {
-                    node(id: $projectId) {
-                      ... on ProjectV2 {
-                        items(first: 5) {
-                          nodes {
-                            content {
-                              ... on Issue {
-                                title
-                                number
-                                url
-                                state
-                              }
-                            }
-                            fieldValues(first: 5) {
-                              nodes {
-                                __typename
-                                ... on ProjectV2ItemFieldSingleSelectValue {
-                                  name
-                                  field { name }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }",
-                  "variables": {
-                    "projectId": "PVT_kwHOAcHVqM4AzEVA"
-                  }
-                 }' | tee response.json
+               --data @query.json | tee response.json
 
       - name: Zeige API-Response
         run: cat response.json
