@@ -12,67 +12,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Erstelle GraphQL-Query als Datei
-        run: |
-          cat > query.json <<EOF
-          {
-            "query": "query {
-               node(id: \\"PVT_kwHOAcHVqM4AzEVA\\") {
-                 ... on ProjectV2 {
-                   items(first: 10) {
-                     nodes {
-                       content {
-                         ... on Issue {
-                           title
-                           number
-                           url
-                         }
-                       }
-                       fieldValues(first: 20) {
-                         nodes {
-                           __typename
-                           ... on ProjectV2ItemFieldSingleSelectValue {
-                             name
-                             field {
-                               ... on ProjectV2FieldCommon {
-                                 name
-                               }
-                             }
-                           }
-                           ... on ProjectV2ItemFieldTextValue {
-                             text
-                             field {
-                               ... on ProjectV2FieldCommon {
-                                 name
-                               }
-                             }
-                           }
-                           ... on ProjectV2ItemFieldNumberValue {
-                             number
-                             field {
-                               ... on ProjectV2FieldCommon {
-                                 name
-                               }
-                             }
-                           }
-                           ... on ProjectV2ItemFieldDateValue {
-                             date
-                             field {
-                               ... on ProjectV2FieldCommon {
-                                 name
-                               }
-                             }
-                           }
-                         }
-                       }
-                     }
-                   }
-                 }
-               }
-             }"
-          }
-          EOF
-
       - name: Fetch Issues from GitHub Project
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
@@ -81,24 +20,107 @@ jobs:
           curl -X POST \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               --url "https://api.github.com/graphql" \
-               --data @query.json | tee response.json
+               -d @- <<EOF | tee response.json
+          {
+            "query": "query FetchProjectIssues(\$owner: String!, \$repo: String!) {
+              repository(owner: \$owner, name: \$repo) {
+                issues(first: 100, states: OPEN) {
+                  nodes {
+                    title
+                    number
+                    url
+                    state
+                    createdAt
+                    updatedAt
+                    closedAt
+                    author {
+                      login
+                      avatarUrl
+                    }
+                    assignees(first: 5) {
+                      nodes {
+                        login
+                        avatarUrl
+                      }
+                    }
+                    labels(first: 10) {
+                      nodes {
+                        name
+                        color
+                      }
+                    }
+                    milestone {
+                      title
+                      dueOn
+                    }
+                    projectItems(first: 5) {
+                      nodes {
+                        fieldValues(first: 10) {
+                          nodes {
+                            __typename
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
+                              }
+                            }
+                            ... on ProjectV2ItemFieldTextValue {
+                              text
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
+                              }
+                            }
+                            ... on ProjectV2ItemFieldDateValue {
+                              date
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }",
+            "variables": {
+              "owner": "twodarkk",
+              "repo": "streamercards"
+            }
+          }
+          EOF
+          
+          echo "==== API-Response ausgeben ===="
+          cat response.json
 
       - name: Process API Response and Create issues.json
         run: |
-          jq 'if .data.node.items.nodes then .data.node.items.nodes | map({
-              title: .content.title,
-              number: .content.number,
-              url: .content.url,
-              status: ( [ .fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
-              priority: ( [ .fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
-              start_date: ( [ .fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
+          jq 'if .data.repository.issues.nodes then .data.repository.issues.nodes | map({
+              title: .title,
+              number: .number,
+              url: .url,
+              state: .state,
+              created_at: .createdAt,
+              updated_at: .updatedAt,
+              closed_at: .closedAt,
+              author: { login: .author.login, avatar_url: .author.avatarUrl },
+              assignees: [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }],
+              labels: [.labels.nodes[] | { name: .name, color: .color }],
+              milestone: if .milestone then { title: .milestone.title, due_on: .milestone.dueOn } else null end,
+              status: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name),
+              priority: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
+              start_date: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)
           }) else [] end' response.json > issues.json
           
           echo "==== Generierte issues.json ===="
           cat issues.json
-
-
 
       - name: Commit and Push Issues Data
         run: |
