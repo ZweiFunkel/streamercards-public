@@ -1,27 +1,56 @@
-name: Test GitHub GraphQL API
+name: Fetch Issues from GitHub Project
 
 on:
   workflow_dispatch:
 
 jobs:
-  test_api:
+  fetch_issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug Token
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
-        run: |
-          echo "Token Länge: ${#GITHUB_TOKEN}"
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Test API Verbindung
+      - name: Fetch Issues from GitHub Project
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
+          echo "==== Sende API-Anfrage ===="
           curl -X POST \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
                --url "https://api.github.com/graphql" \
-               -d '{"query": "query { viewer { login } }"}' | tee response.json
+               -d '{
+                 "query": "query FetchProjectIssues($projectId: ID!) {
+                    node(id: $projectId) {
+                      ... on ProjectV2 {
+                        items(first: 5) {
+                          nodes {
+                            content {
+                              ... on Issue {
+                                title
+                                number
+                                url
+                                state
+                              }
+                            }
+                            fieldValues(first: 5) {
+                              nodes {
+                                __typename
+                                ... on ProjectV2ItemFieldSingleSelectValue {
+                                  name
+                                  field { name }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }",
+                  "variables": {
+                    "projectId": "PVT_kwHOAcHVqM4AzEVA"
+                  }
+                 }' | tee response.json
 
       - name: Zeige API-Response
         run: cat response.json
