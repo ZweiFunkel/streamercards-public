@@ -19,20 +19,25 @@ function displayIssues(issues) {
         "Ungültig": document.getElementById("ungueltig")
     };
 
-    // Spalten zurücksetzen
     Object.values(columns).forEach(column => column.innerHTML = "<h2>" + column.id.replace("-", " ") + "</h2>");
 
     issues.forEach(issue => {
         const issueDiv = document.createElement("div");
         issueDiv.className = "issue";
-        issueDiv.innerHTML = `<strong>#${issue.number}</strong>: ${issue.title}`;
+        issueDiv.innerHTML = `
+            <div class="issue-header">
+                <a href="${issue.url}" target="_blank">#${issue.number}: ${issue.title}</a>
+            </div>
+            <div class="issue-info">
+                <span class="status">${issue.status}</span>
+                <span class="priority">${issue.priority}</span>
+                <span class="date">${issue.start_date}</span>
+            </div>
+        `;
         issueDiv.onclick = () => window.open(issue.url, "_blank");
 
-        const status = issue.status || "Geplant"; // Falls kein Status gefunden wird, "Geplant" als Standard setzen
-        if (columns[status]) {
-            columns[status].appendChild(issueDiv);
-        } else {
-            console.warn(`Unbekannter Status: ${status}`);
+        if (columns[issue.status]) {
+            columns[issue.status].appendChild(issueDiv);
         }
     });
 }
