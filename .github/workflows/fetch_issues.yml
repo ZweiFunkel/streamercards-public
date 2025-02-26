@@ -19,9 +19,9 @@ jobs:
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
           -H "Content-Type: application/json" \
           -d '{
-            "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url projectItems(first: 1) { nodes { fieldValues(first: 10) { nodes { ... on ProjectV2ItemFieldSingleSelectValue { name } } } } } } } } } } } }"
+            "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } } } } } }"
           }' \
-          https://api.github.com/graphql | jq '.data.node.items.nodes' > issues.json
+          https://api.github.com/graphql | jq '.data.node.items.nodes | map({title: .content.title, number: .content.number, url: .content.url})' > issues.json
 
       - name: Commit and Push Issues Data
         run: |
