@@ -32,6 +32,9 @@ jobs:
                           title
                           number
                           url
+                          state
+                          createdAt
+                          updatedAt
                         }
                       }
                       fieldValues(first: 20) {
@@ -75,6 +78,9 @@ jobs:
               title: .content.title,
               number: .content.number,
               url: .content.url,
+              state: .content.state,
+              created_at: .content.createdAt,
+              updated_at: .content.updatedAt,
               status: (.fieldValues.nodes[] | select(.field.name == "Status") | .name),
               priority: (.fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
               title_text: (.fieldValues.nodes[] | select(.field.name == "Title") | .text),
