@@ -110,13 +110,28 @@ jobs:
                   created_at: .data.repository.issue.createdAt,
                   updated_at: .data.repository.issue.updatedAt,
                   closed_at: .data.repository.issue.closedAt,
-                  author: { login: .data.repository.issue.author.login, avatar_url: .data.repository.issue.author.avatarUrl },
-                  assignees: (.data.repository.issue.assignees.nodes | map({ login: .login, avatar_url: .avatarUrl }) // []),
-                  labels: (.data.repository.issue.labels.nodes | map({ name: .name, color: .color }) // []),
-                  milestone: (.data.repository.issue.milestone // { title: null, due_on: null }),
-                  status: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name) // null,
-                  priority: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name) // null,
-                  start_date: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date) // null
+                  author: { 
+                    login: .data.repository.issue.author.login, 
+                    avatar_url: .data.repository.issue.author.avatarUrl 
+                  },
+                  assignees: (if .data.repository.issue.assignees.nodes | length > 0 
+                              then [.data.repository.issue.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
+                              else [] end),
+                  labels: (if .data.repository.issue.labels.nodes | length > 0 
+                           then [.data.repository.issue.labels.nodes[] | { name: .name, color: .color }]
+                           else [] end),
+                  milestone: (if .data.repository.issue.milestone 
+                              then { title: .data.repository.issue.milestone.title, due_on: .data.repository.issue.milestone.dueOn }
+                              else null end),
+                  status: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
+                           then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name 
+                           else null end),
+                  priority: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
+                             then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name 
+                             else null end),
+                  start_date: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
+                               then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date 
+                               else null end)
                 }
               else {} end' response.json > issue_details.json
           
