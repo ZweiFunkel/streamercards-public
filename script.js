@@ -1,54 +1,11 @@
-const token = "DEIN_GITHUB_READONLY_TOKEN"; // Hier dein GitHub Token einfügen
-const projectId = "PVT_kwHOAcHVqM4AzEVA"; // Project ID deines GitHub Boards
-
 async function fetchIssues() {
-    const query = {
-        query: `{
-            node(id: "${projectId}") {
-                ... on ProjectV2 {
-                    items(first: 100) {
-                        nodes {
-                            content {
-                                ... on Issue {
-                                    title
-                                    number
-                                    url
-                                    labels(first: 10) {
-                                        nodes {
-                                            name
-                                        }
-                                    }
-                                    projectItems(first: 1) {
-                                        nodes {
-                                            fieldValues(first: 10) {
-                                                nodes {
-                                                    ... on ProjectV2ItemFieldSingleSelectValue {
-                                                        name
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }`
-    };
-
-    const response = await fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(query)
-    });
-
-    const data = await response.json();
-    displayIssues(data.data.node.items.nodes);
+    try {
+        const response = await fetch("issues.json"); // Holt die Issues aus GitHub Actions
+        const issues = await response.json();
+        displayIssues(issues);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Issues:", error);
+    }
 }
 
 function displayIssues(issues) {
@@ -62,7 +19,8 @@ function displayIssues(issues) {
         "Ungültig": document.getElementById("ungueltig")
     };
 
-    Object.values(columns).forEach(column => column.innerHTML = "");
+    // Spalten zurücksetzen, bevor neue Einträge geladen werden
+    Object.values(columns).forEach(column => column.innerHTML = "<h2>" + column.id.replace("-", " ") + "</h2>");
 
     issues.forEach(issue => {
         const issueDiv = document.createElement("div");
@@ -70,7 +28,7 @@ function displayIssues(issues) {
         issueDiv.innerHTML = `<strong>#${issue.content.number}</strong>: ${issue.content.title}`;
         issueDiv.onclick = () => window.open(issue.content.url, "_blank");
 
-        const status = issue.content.projectItems.nodes[0]?.fieldValues.nodes[0]?.name;
+        const status = issue.content.projectItems.nodes[0]?.fieldValues.nodes[0]?.name || "Geplant"; // Standard "Geplant"
         if (columns[status]) {
             columns[status].appendChild(issueDiv);
         }
