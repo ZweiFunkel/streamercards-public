@@ -101,8 +101,8 @@ jobs:
 
       - name: Process API Response and Create issues.json
         run: |
-          jq 'if .data.repository.issues.nodes then 
-          .data.repository.issues.nodes | map({
+          jq 'if .data.node.items.nodes then 
+          .data.node.items.nodes | map({
             title: .title,
             number: .number,
             url: .url,
