@@ -1,4 +1,4 @@
-name: Fetch Issue Details for Public Scrumboard
+name: Fetch Issue Details
 
 on:
   schedule:
@@ -17,12 +17,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
           echo "==== Sende API-Anfrage ===="
-          curl -X POST \
+          curl -X POST https://api.github.com/graphql \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
                -d @- <<EOF | tee response.json
           {
-            "query": "query FetchIssueDetails(\$owner: String!, \$repo: String!, \$issueNumber: Int!) {
+            "query": "query GetIssueDetails(\$owner: String!, \$repo: String!, \$issueNumber: Int!) {
               repository(owner: \$owner, name: \$repo) {
                 issue(number: \$issueNumber) {
                   title
@@ -95,57 +95,42 @@ jobs:
             }
           }
           EOF
-          
+
           echo "==== API-Response ausgeben ===="
           cat response.json
 
-      - name: Process API Response and Create issue_details.json
+      - name: Process API Response and Create issues.json
         run: |
-          jq 'if .data.repository.issue then 
-                {
-                  title: .data.repository.issue.title,
-                  number: .data.repository.issue.number,
-                  url: .data.repository.issue.url,
-                  state: .data.repository.issue.state,
-                  created_at: .data.repository.issue.createdAt,
-                  updated_at: .data.repository.issue.updatedAt,
-                  closed_at: .data.repository.issue.closedAt,
-                  author: { 
-                    login: .data.repository.issue.author.login, 
-                    avatar_url: .data.repository.issue.author.avatarUrl 
-                  },
-                  assignees: (if .data.repository.issue.assignees.nodes | length > 0 
-                              then [.data.repository.issue.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
-                              else [] end),
-                  labels: (if .data.repository.issue.labels.nodes | length > 0 
-                           then [.data.repository.issue.labels.nodes[] | { name: .name, color: .color }]
-                           else [] end),
-                  milestone: (if .data.repository.issue.milestone 
-                              then { title: .data.repository.issue.milestone.title, due_on: .data.repository.issue.milestone.dueOn }
-                              else null end),
-                  status: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
-                           then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name 
-                           else null end),
-                  priority: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
-                             then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name 
-                             else null end),
-                  start_date: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
-                               then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date 
-                               else null end)
-                }
-              else {} end' response.json > issue_details.json
-          
-          echo "==== Generierte issue_details.json ===="
-          cat issue_details.json
+          jq 'if .data.repository.issue then {
+            title: .data.repository.issue.title,
+            number: .data.repository.issue.number,
+            url: .data.repository.issue.url,
+            state: .data.repository.issue.state,
+            created_at: .data.repository.issue.createdAt,
+            updated_at: .data.repository.issue.updatedAt,
+            author: {
+              login: .data.repository.issue.author.login,
+              avatar_url: .data.repository.issue.author.avatarUrl
+            },
+            assignees: [.data.repository.issue.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }],
+            labels: [.data.repository.issue.labels.nodes[] | { name: .name, color: .color }],
+            milestone: if .data.repository.issue.milestone then { title: .data.repository.issue.milestone.title, due_on: .data.repository.issue.milestone.dueOn } else null end,
+            status: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name) // null,
+            priority: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name) // null,
+            start_date: (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date) // null
+          } else null end' response.json > issues.json
 
-      - name: Commit and Push Issue Details
+          echo "==== Generierte issues.json ===="
+          cat issues.json
+
+      - name: Commit and Push Issues Data
         run: |
-          if [ -s issue_details.json ]; then
+          if [ -s issues.json ]; then
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
-            git add issue_details.json
+            git add issues.json
             git commit -m "Updated issue details JSON" || echo "No changes to commit"
             git push
           else
-            echo "issue_details.json ist leer, nichts zu committen."
+            echo "issues.json ist leer, nichts zu committen."
           fi
