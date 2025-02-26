@@ -1,77 +1,77 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #181818;
-    color: white;
-    text-align: center;
-}
-
-h1 {
-    margin: 20px;
-    font-size: 28px;
-}
-
-#board {
-    display: flex;
-    justify-content: space-around;
+    color: #fff;
+    margin: 0;
     padding: 20px;
 }
-
-.column {
-    width: 14%;
-    background-color: #252525;
-    border-radius: 10px;
-    padding: 10px;
+.kanban-board {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    overflow-x: auto;
 }
-
-.column h2 {
-    font-size: 18px;
+.kanban-column {
+    background: #222;
     padding: 10px;
-    background-color: #333;
     border-radius: 8px;
+    width: 200px;
 }
-
-.issues {
-    min-height: 200px;
+h2 {
+    font-size: 16px;
+}
+.kanban-cards {
     margin-top: 10px;
 }
-
-.issue {
-    background-color: #2a2a2a;
+.kanban-card {
+    background: #333;
     padding: 10px;
-    margin: 8px 0;
     border-radius: 6px;
+    margin-bottom: 10px;
     cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
 }
-
-.issue:hover {
-    transform: scale(1.05);
-    background-color: #333;
+.status-dot {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
 }
-
-/* Modal-Styling */
-.modal {
-    display: none;
+.planned { background: blue; }
+.concept { background: orange; }
+.in-progress { background: red; }
+.testing { background: purple; }
+.beta { background: yellow; }
+.completed { background: green; }
+.invalid { background: darkred; }
+.faulty { background: gray; }
+.issue-details-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
     justify-content: center;
     align-items: center;
 }
-
-.modal-content {
-    background-color: #252525;
+.issue-details {
+    background: #222;
     padding: 20px;
     border-radius: 8px;
-    width: 40%;
+    max-width: 500px;
+    text-align: left;
 }
-
-.close {
-    float: right;
-    font-size: 20px;
+.avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
     cursor: pointer;
+    float: right;
 }
