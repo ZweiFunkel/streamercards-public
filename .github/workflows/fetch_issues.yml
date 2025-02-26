@@ -1,4 +1,4 @@
-name: Fetch Issue Details
+name: Fetch Issues for Public Scrumboard
 
 on:
   schedule:
@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  fetch_issue_details:
+  fetch_issues:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Fetch Issue Details from GitHub
+      - name: Fetch Issues from GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
@@ -22,62 +22,64 @@ jobs:
                -H "Content-Type: application/json" \
                -d @- <<EOF | tee response.json
           {
-            "query": "query GetIssueDetails(\$owner: String!, \$repo: String!, \$issueNumber: Int!) {
+            "query": "query GetIssues(\$owner: String!, \$repo: String!) {
               repository(owner: \$owner, name: \$repo) {
-                issue(number: \$issueNumber) {
-                  title
-                  number
-                  url
-                  state
-                  createdAt
-                  updatedAt
-                  closedAt
-                  author {
-                    login
-                    avatarUrl
-                  }
-                  assignees(first: 5) {
-                    nodes {
+                issues(first: 50, states: OPEN) {  # Hier alle offenen Issues abrufen
+                  nodes {
+                    title
+                    number
+                    url
+                    state
+                    createdAt
+                    updatedAt
+                    closedAt
+                    author {
                       login
                       avatarUrl
                     }
-                  }
-                  labels(first: 10) {
-                    nodes {
-                      name
-                      color
+                    assignees(first: 5) {
+                      nodes {
+                        login
+                        avatarUrl
+                      }
                     }
-                  }
-                  milestone {
-                    title
-                    dueOn
-                  }
-                  projectItems(first: 5) {
-                    nodes {
-                      fieldValues(first: 10) {
-                        nodes {
-                          __typename
-                          ... on ProjectV2ItemFieldSingleSelectValue {
-                            name
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                    labels(first: 10) {
+                      nodes {
+                        name
+                        color
+                      }
+                    }
+                    milestone {
+                      title
+                      dueOn
+                    }
+                    projectItems(first: 5) {
+                      nodes {
+                        fieldValues(first: 10) {
+                          nodes {
+                            __typename
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
-                          }
-                          ... on ProjectV2ItemFieldTextValue {
-                            text
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                            ... on ProjectV2ItemFieldTextValue {
+                              text
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
-                          }
-                          ... on ProjectV2ItemFieldDateValue {
-                            date
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                            ... on ProjectV2ItemFieldDateValue {
+                              date
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
                           }
@@ -90,8 +92,7 @@ jobs:
             }",
             "variables": {
               "owner": "twodarkk",
-              "repo": "streamercards",
-              "issueNumber": 29
+              "repo": "streamercards"
             }
           }
           EOF
@@ -101,36 +102,38 @@ jobs:
 
       - name: Process API Response and Create issues.json
         run: |
-          jq 'if .data.repository.issue then {
-            title: .data.repository.issue.title,
-            number: .data.repository.issue.number,
-            url: .data.repository.issue.url,
-            state: .data.repository.issue.state,
-            created_at: .data.repository.issue.createdAt,
-            updated_at: .data.repository.issue.updatedAt,
-            author: {
-              login: .data.repository.issue.author.login,
-              avatar_url: .data.repository.issue.author.avatarUrl
-            },
-            assignees: (if .data.repository.issue.assignees.nodes | length > 0 
-                        then [.data.repository.issue.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
-                        else [] end),
-            labels: (if .data.repository.issue.labels.nodes | length > 0 
-                     then [.data.repository.issue.labels.nodes[] | { name: .name, color: .color }]
-                     else [] end),
-            milestone: (if .data.repository.issue.milestone != null 
-                        then { title: .data.repository.issue.milestone.title, due_on: .data.repository.issue.milestone.dueOn }
-                        else null end),
-            status: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
-                     then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name 
-                     else null end),
-            priority: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
-                       then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name 
+          jq 'if .data.repository.issues.nodes then 
+            .data.repository.issues.nodes | map({
+              title: .title,
+              number: .number,
+              url: .url,
+              state: .state,
+              created_at: .createdAt,
+              updated_at: .updatedAt,
+              author: {
+                login: .author.login,
+                avatar_url: .author.avatarUrl
+              },
+              assignees: (if .assignees.nodes | length > 0 
+                          then [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
+                          else [] end),
+              labels: (if .labels.nodes | length > 0 
+                       then [.labels.nodes[] | { name: .name, color: .color }]
+                       else [] end),
+              milestone: (if .milestone != null 
+                          then { title: .milestone.title, due_on: .milestone.dueOn }
+                          else null end),
+              status: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
+                       then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name 
                        else null end),
-            start_date: (if (.data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
-                         then .data.repository.issue.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date 
-                         else null end)
-          } else {} end' response.json > issues.json
+              priority: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
+                         then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name 
+                         else null end),
+              start_date: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
+                           then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date 
+                           else null end)
+            }) 
+          else [] end' response.json > issues.json
 
           echo "==== Generierte issues.json ===="
           cat issues.json
@@ -141,7 +144,7 @@ jobs:
             git config --global user.name "github-actions"
             git config --global user.email "github-actions@github.com"
             git add issues.json
-            git commit -m "Updated issue details JSON" || echo "No changes to commit"
+            git commit -m "Updated issues JSON" || echo "No changes to commit"
             git push
           else
             echo "issues.json ist leer, nichts zu committen."
