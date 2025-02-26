@@ -30,3 +30,13 @@ jobs:
           git add issues.json
           git commit -m "Updated issues JSON"
           git push
+
+      - name: Debug API Response
+        run: |
+          curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } } } } } }"
+          }' \
+          https://api.github.com/graphql | tee response.json
+
