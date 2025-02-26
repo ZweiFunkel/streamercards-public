@@ -10,13 +10,13 @@ async function fetchIssues() {
 
 function displayIssues(issues) {
     const columns = {
-        "Geplant": document.querySelector("#geplant .task-list"),
-        "Konzeptionierung": document.querySelector("#konzeptionierung .task-list"),
-        "In Bearbeitung": document.querySelector("#in-bearbeitung .task-list"),
-        "Im Test": document.querySelector("#im-test .task-list"),
-        "Beta-/Testphase": document.querySelector("#beta-testphase .task-list"),
-        "Abgeschlossen": document.querySelector("#abgeschlossen .task-list"),
-        "Ungültig": document.querySelector("#ungueltig .task-list")
+        "Geplant": document.querySelector("#geplant .issues"),
+        "Konzeptionierung": document.querySelector("#konzeptionierung .issues"),
+        "In Bearbeitung": document.querySelector("#in-bearbeitung .issues"),
+        "Im Test": document.querySelector("#im-test .issues"),
+        "Beta-/Testphase": document.querySelector("#beta-testphase .issues"),
+        "Abgeschlossen": document.querySelector("#abgeschlossen .issues"),
+        "Ungültig": document.querySelector("#ungueltig .issues")
     };
 
     Object.values(columns).forEach(column => column.innerHTML = "");
@@ -24,32 +24,40 @@ function displayIssues(issues) {
     issues.forEach(issue => {
         const issueDiv = document.createElement("div");
         issueDiv.className = "issue";
-        issueDiv.draggable = true;
-        issueDiv.ondragstart = (event) => event.dataTransfer.setData("text", issue.number);
         issueDiv.innerHTML = `
-            <div class="issue-header">
-                <a href="${issue.url}" target="_blank">#${issue.number} ${issue.title}</a>
-            </div>
-            <div class="issue-info">
-                <span class="status ${issue.status.toLowerCase()}">${issue.status}</span>
-                <span class="priority">${issue.priority}</span>
-                <span class="date">${issue.start_date}</span>
-            </div>
+            <strong>#${issue.number}</strong>: ${issue.title}
+            <br><span style="color: ${getPriorityColor(issue.priority)}">${issue.priority}</span>
         `;
-        if (columns[issue.status]) {
-            columns[issue.status].appendChild(issueDiv);
+        issueDiv.onclick = () => openModal(issue);
+
+        const status = issue.status;
+        if (columns[status]) {
+            columns[status].appendChild(issueDiv);
         }
     });
 }
 
-function allowDrop(event) {
-    event.preventDefault();
+function getPriorityColor(priority) {
+    switch (priority) {
+        case "Wichtig": return "red";
+        case "Mittel": return "orange";
+        case "Niedrig": return "green";
+        default: return "white";
+    }
 }
 
-function drop(event) {
-    event.preventDefault();
-    const issueNumber = event.dataTransfer.getData("text");
-    console.log(`Issue ${issueNumber} wurde verschoben.`);
+function openModal(issue) {
+    document.getElementById("modal-title").innerText = `#${issue.number} - ${issue.title}`;
+    document.getElementById("modal-status").innerText = issue.status;
+    document.getElementById("modal-priority").innerText = issue.priority || "Keine Priorität";
+    document.getElementById("modal-start").innerText = issue.start_date || "Kein Datum";
+    document.getElementById("modal-link").href = issue.url;
+
+    document.getElementById("issueModal").style.display = "flex";
 }
+
+document.querySelector(".close").onclick = () => {
+    document.getElementById("issueModal").style.display = "none";
+};
 
 fetchIssues();
