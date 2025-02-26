@@ -4,23 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanban Board</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <div class="kanban-container">
-        <div class="kanban-column" id="column-planned"><div class="kanban-header">Geplant</div></div>
-        <div class="kanban-column" id="column-concept"><div class="kanban-header">Konzeptionierung</div></div>
-        <div class="kanban-column" id="column-progress"><div class="kanban-header">In Bearbeitung</div></div>
-        <div class="kanban-column" id="column-test"><div class="kanban-header">Im Test</div></div>
-        <div class="kanban-column" id="column-beta"><div class="kanban-header">Beta-/Testphase</div></div>
-        <div class="kanban-column" id="column-done"><div class="kanban-header">Abgeschlossen</div></div>
-        <div class="kanban-column" id="column-invalid"><div class="kanban-header">Ungültig</div></div>
-        <div class="kanban-column" id="column-error"><div class="kanban-header">Fehlerhaft</div></div>
+    <div id="kanban-board">
+        <h1>Streamercards Kanban Board</h1>
+        <div id="columns">
+            <!-- Spalten werden durch JS generiert -->
+        </div>
     </div>
 
-    <div id="issue-modal" class="issue-modal">
-        <div id="modal-content"></div>
+    <div id="issue-details" class="hidden">
+        <div id="issue-content">
+            <button id="close-issue">✖</button>
+            <h2 id="issue-title"></h2>
+            <span id="issue-status"></span>
+            <div id="issue-meta">
+                <img id="issue-author-avatar" alt="Author Avatar">
+                <span id="issue-author"></span>
+            </div>
+            <div id="issue-dates">
+                <p><strong>Erstellt:</strong> <span id="issue-created"></span></p>
+                <p><strong>Letzte Aktualisierung:</strong> <span id="issue-updated"></span></p>
+                <p><strong>Meilenstein:</strong> <span id="issue-milestone"></span></p>
+            </div>
+            <p><strong>Labels:</strong> <span id="issue-labels"></span></p>
+            <p><strong>Priorität:</strong> <span id="issue-priority"></span></p>
+            <p><strong>Start-Datum:</strong> <span id="issue-start-date"></span></p>
+            <a id="issue-link" href="#" target="_blank">Auf GitHub ansehen</a>
+        </div>
     </div>
 
     <script src="script.js"></script>
