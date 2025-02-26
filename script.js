@@ -1,6 +1,6 @@
 async function fetchIssues() {
     try {
-        const response = await fetch("issues.json"); // Holt die Issues aus GitHub Actions
+        const response = await fetch("issues.json");
         const issues = await response.json();
         displayIssues(issues);
     } catch (error) {
@@ -19,16 +19,16 @@ function displayIssues(issues) {
         "Ungültig": document.getElementById("ungueltig")
     };
 
-    // Spalten zurücksetzen, bevor neue Einträge geladen werden
     Object.values(columns).forEach(column => column.innerHTML = "<h2>" + column.id.replace("-", " ") + "</h2>");
 
     issues.forEach(issue => {
         const issueDiv = document.createElement("div");
         issueDiv.className = "issue";
-        issueDiv.innerHTML = `<strong>#${issue.content.number}</strong>: ${issue.content.title}`;
-        issueDiv.onclick = () => window.open(issue.content.url, "_blank");
+        issueDiv.innerHTML = `<strong>#${issue.number}</strong>: ${issue.title}`;
+        issueDiv.onclick = () => window.open(issue.url, "_blank");
 
-        const status = issue.content.projectItems.nodes[0]?.fieldValues.nodes[0]?.name || "Geplant"; // Standard "Geplant"
+        // Hier müsstest du den Status der Issues noch mit einer separaten API-Abfrage bekommen
+        const status = "Geplant"; // Standardmäßig auf "Geplant" setzen
         if (columns[status]) {
             columns[status].appendChild(issueDiv);
         }
