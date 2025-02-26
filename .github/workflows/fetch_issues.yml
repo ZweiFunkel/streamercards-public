@@ -14,25 +14,52 @@ jobs:
         run: |
           cat > query.json <<EOF
           {
-            "query": "query FetchProjectIssues(\$projectId: ID!) {
-               node(id: \$projectId) {
+            "query": "query {
+               node(id: \\"PVT_kwHOAcHVqM4AzEVA\\") {
                  ... on ProjectV2 {
-                   items(first: 5) {
+                   items(first: 10) {
                      nodes {
                        content {
                          ... on Issue {
                            title
                            number
                            url
-                           state
                          }
                        }
-                       fieldValues(first: 5) {
+                       fieldValues(first: 20) {
                          nodes {
                            __typename
                            ... on ProjectV2ItemFieldSingleSelectValue {
                              name
-                             field { name }
+                             field {
+                               ... on ProjectV2FieldCommon {
+                                 name
+                               }
+                             }
+                           }
+                           ... on ProjectV2ItemFieldTextValue {
+                             text
+                             field {
+                               ... on ProjectV2FieldCommon {
+                                 name
+                               }
+                             }
+                           }
+                           ... on ProjectV2ItemFieldNumberValue {
+                             number
+                             field {
+                               ... on ProjectV2FieldCommon {
+                                 name
+                               }
+                             }
+                           }
+                           ... on ProjectV2ItemFieldDateValue {
+                             date
+                             field {
+                               ... on ProjectV2FieldCommon {
+                                 name
+                               }
+                             }
                            }
                          }
                        }
@@ -40,10 +67,7 @@ jobs:
                    }
                  }
                }
-             }",
-            "variables": {
-              "projectId": "PVT_kwHOAcHVqM4AzEVA"
-            }
+             }"
           }
           EOF
 
