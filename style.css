@@ -1,105 +1,111 @@
+/* Allgemeines Styling */
 body {
+    background-color: #0D1117;
+    color: #C9D1D9;
     font-family: Arial, sans-serif;
-    background-color: #181818;
-    color: #fff;
     margin: 0;
-    padding: 0;
-}
-
-/* Kanban-Board */
-.kanban-container {
-    display: flex;
-    gap: 15px;
     padding: 20px;
-    overflow-x: auto;
 }
 
-.kanban-column {
-    flex: 1;
-    background: #222;
-    padding: 10px;
-    border-radius: 5px;
-    min-width: 200px;
-}
-
-.kanban-header {
-    font-weight: bold;
-    padding: 10px;
-    text-transform: uppercase;
-    background: #333;
-    border-radius: 5px;
+h1 {
     text-align: center;
 }
 
-.kanban-card {
-    background: #333;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.kanban-card:hover {
-    background: #444;
-}
-
-.card-header {
+/* Kanban-Board */
+#kanban-board {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 }
 
-.issue-number {
+#columns {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.column {
+    background-color: #161B22;
+    padding: 10px;
+    width: 220px;
+    border-radius: 5px;
+}
+
+.column h2 {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.column p {
     font-size: 12px;
-    color: #bbb;
+    color: gray;
+    margin: 0;
 }
 
-.assignee-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+.issue-card {
+    background-color: #21262D;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Issue-Detailansicht */
-.issue-modal {
+.issue-card:hover {
+    background-color: #30363D;
+}
+
+/* Issue-Details */
+#issue-details {
     position: fixed;
     top: 0;
     right: 0;
-    width: 40%;
-    height: 100%;
-    background: #222;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.5);
-    display: none;
-    overflow-y: auto;
+    width: 350px;
+    height: 100vh;
+    background-color: #161B22;
     padding: 20px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #444;
+#issue-details.hidden {
+    display: none;
 }
 
-.issue-title {
-    font-size: 18px;
-}
-
-.close-btn {
-    background: none;
+#close-issue {
+    float: right;
     border: none;
+    background: none;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
 }
 
-/* Labels */
-.label {
+#issue-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#issue-meta img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#issue-status {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;
-    color: #fff;
-    margin-right: 5px;
 }
+
+/* Status-Farben */
+.status-geplant { background: blue; }
+.status-in-bearbeitung { background: orange; }
+.status-abgeschlossen { background: green; }
+.status-ungültig { background: red; }
+
