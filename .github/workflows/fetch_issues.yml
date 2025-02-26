@@ -113,7 +113,7 @@ jobs:
               author: { login: .author.login, avatar_url: .author.avatarUrl },
               assignees: [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }],
               labels: [.labels.nodes[] | { name: .name, color: .color }],
-              milestone: if .milestone then { title: .milestone.title, due_on: .milestone.dueOn } else null end,
+              milestone: (.milestone // {title: null, due_on: null}) | { title, due_on },
               status: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name),
               priority: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
               start_date: (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)
