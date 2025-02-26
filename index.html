@@ -7,54 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="kanban-container">
-        <div class="kanban-header">
-            <h1>Streamercards Kanban Board</h1>
-        </div>
-        
-        <div class="kanban-board">
-            <!-- Spalten für Status -->
-            <div class="kanban-column" data-status="Geplant">
-                <h2><span class="status-dot planned"></span> Geplant</h2>
-                <div class="kanban-cards" id="Geplant"></div>
-            </div>
-            <div class="kanban-column" data-status="Konzeptionierung">
-                <h2><span class="status-dot concept"></span> Konzeptionierung</h2>
-                <div class="kanban-cards" id="Konzeptionierung"></div>
-            </div>
-            <div class="kanban-column" data-status="In Bearbeitung">
-                <h2><span class="status-dot in-progress"></span> In Bearbeitung</h2>
-                <div class="kanban-cards" id="In Bearbeitung"></div>
-            </div>
-            <div class="kanban-column" data-status="Im Test">
-                <h2><span class="status-dot testing"></span> Im Test</h2>
-                <div class="kanban-cards" id="Im Test"></div>
-            </div>
-            <div class="kanban-column" data-status="Beta-Testphase">
-                <h2><span class="status-dot beta"></span> Beta-Testphase</h2>
-                <div class="kanban-cards" id="Beta-Testphase"></div>
-            </div>
-            <div class="kanban-column" data-status="Abgeschlossen">
-                <h2><span class="status-dot completed"></span> Abgeschlossen</h2>
-                <div class="kanban-cards" id="Abgeschlossen"></div>
-            </div>
-        </div>
+        <div class="kanban-column" id="column-planned"><div class="kanban-header">Geplant</div></div>
+        <div class="kanban-column" id="column-concept"><div class="kanban-header">Konzeptionierung</div></div>
+        <div class="kanban-column" id="column-progress"><div class="kanban-header">In Bearbeitung</div></div>
+        <div class="kanban-column" id="column-test"><div class="kanban-header">Im Test</div></div>
+        <div class="kanban-column" id="column-beta"><div class="kanban-header">Beta-/Testphase</div></div>
+        <div class="kanban-column" id="column-done"><div class="kanban-header">Abgeschlossen</div></div>
+        <div class="kanban-column" id="column-invalid"><div class="kanban-header">Ungültig</div></div>
+        <div class="kanban-column" id="column-error"><div class="kanban-header">Fehlerhaft</div></div>
     </div>
 
-    <!-- Issue-Detailansicht -->
-    <div class="issue-details-overlay" id="issueDetailsOverlay">
-        <div class="issue-details">
-            <button class="close-btn" onclick="closeIssueDetails()">×</button>
-            <h2 id="issueTitle"></h2>
-            <p><strong>Issue-Nummer:</strong> <span id="issueNumber"></span></p>
-            <p><strong>Status:</strong> <span id="issueStatus"></span></p>
-            <p><strong>Priorität:</strong> <span id="issuePriority"></span></p>
-            <p><strong>Start-Datum:</strong> <span id="issueStartDate"></span></p>
-            <p><strong>Autor:</strong> <img id="issueAuthorAvatar" class="avatar"> <span id="issueAuthor"></span></p>
-            <p><strong>Erstellt am:</strong> <span id="issueCreatedAt"></span></p>
-            <p><strong>Letzte Änderung:</strong> <span id="issueUpdatedAt"></span></p>
-            <a id="issueLink" href="#" target="_blank" class="issue-link">GitHub Issue öffnen</a>
-        </div>
+    <div id="issue-modal" class="issue-modal">
+        <div id="modal-content"></div>
     </div>
 
     <script src="script.js"></script>
