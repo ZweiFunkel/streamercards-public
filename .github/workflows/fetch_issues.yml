@@ -113,30 +113,18 @@ jobs:
               login: .author.login,
               avatar_url: .author.avatarUrl
             },
-            assignees: (if .assignees.nodes | length > 0 
-                        then [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
-                        else [] end),
-            labels: (if .labels.nodes | length > 0 
-                     then [.labels.nodes[] | { name: .name, color: .color }]
-                     else [] end),
-            milestone: (if .milestone != null 
-                        then { title: .milestone.title, due_on: .milestone.dueOn }
-                        else null end),
-            status: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
-                     then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name 
-                     else null end),
-            priority: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
-                       then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name 
-                       else null end),
-            start_date: (if (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
-                         then .projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date 
-                         else null end)
+            assignees: ( [ .assignees.nodes[]? | { login: .login, avatar_url: .avatarUrl } ] // [] ),
+            labels: ( [ .labels.nodes[]? | { name: .name, color: .color } ] // [] ),
+            milestone: (if .milestone then { title: .milestone.title, due_on: .milestone.dueOn } else null end),
+            status: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
+            priority: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
+            start_date: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
           }) 
           else [] end' response.json > issues.json
-
       
           echo "==== Generierte issues.json ===="
           cat issues.json
+
 
 
 
