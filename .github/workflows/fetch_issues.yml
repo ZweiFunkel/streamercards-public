@@ -12,31 +12,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Fetch Issues from GitHub Project
+      - name: Debug API Response (Rohdaten)
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
+          echo "==== Sende API-Anfrage ===="
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } } } } } }"
-          }' \
-          https://api.github.com/graphql | jq '.data.node.items.nodes | map({title: .content.title, number: .content.number, url: .content.url})' > issues.json
-
-      - name: Commit and Push Issues Data
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add issues.json
-          git commit -m "Updated issues JSON"
-          git push
-
-      - name: Debug API Response
-        run: |
-          curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } } } } } }"
-          }' \
-          https://api.github.com/graphql | tee response.json
-
+               -H "Content-Type: application/json" \
+               -d '{
+                  "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 10) { nodes { content { ... on Issue { title number url } } } } } } }"
+                }' \
+                https://api.github.com/graphql | tee response.json
+          
+          echo "==== API-Response ausgeben ===="
+          cat response.json
