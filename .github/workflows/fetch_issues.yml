@@ -100,42 +100,42 @@ jobs:
           cat response.json
 
       - name: Process API Response and Create issues.json
-  run: |
-    jq 'if .data.repository.issues.nodes then 
-      [.data.repository.issues.nodes[] | {
-        title: .title,
-        number: .number,
-        url: .url,
-        state: .state,
-        created_at: .createdAt,
-        updated_at: .updatedAt,
-        author: {
-          login: .author.login,
-          avatar_url: .author.avatarUrl
-        },
-        assignees: (if .assignees.nodes | length > 0 
-                    then [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
-                    else [] end),
-        labels: (if .labels.nodes | length > 0 
-                 then [.labels.nodes[] | { name: .name, color: .color }]
-                 else [] end),
-        milestone: (if .milestone != null 
-                    then { title: .milestone.title, due_on: .milestone.dueOn }
-                    else null end),
-        status: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
-                 then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
-                 else null end),
-        priority: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
-                   then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
-                   else null end),
-        start_date: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
-                     then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
-                     else null end)
-      }]
-    else [] end' response.json > issues.json
-
-    echo "==== Generierte issues.json ===="
-    cat issues.json
+        run: |
+          jq 'if .data.repository.issues.nodes then 
+            [.data.repository.issues.nodes[] | {
+              title: .title,
+              number: .number,
+              url: .url,
+              state: .state,
+              created_at: .createdAt,
+              updated_at: .updatedAt,
+              author: {
+                login: .author.login,
+                avatar_url: .author.avatarUrl
+              },
+              assignees: (if .assignees.nodes | length > 0 
+                          then [.assignees.nodes[] | { login: .login, avatar_url: .avatarUrl }]
+                          else [] end),
+              labels: (if .labels.nodes | length > 0 
+                       then [.labels.nodes[] | { name: .name, color: .color }]
+                       else [] end),
+              milestone: (if .milestone != null 
+                          then { title: .milestone.title, due_on: .milestone.dueOn }
+                          else null end),
+              status: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
+                       then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Status") | .name)? 
+                       else null end),
+              priority: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
+                         then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Priorität") | .name)? 
+                         else null end),
+              start_date: (if (.projectItems.nodes | length > 0 and (.projectItems.nodes[].fieldValues.nodes | length > 0)) 
+                           then (.projectItems.nodes[].fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)? 
+                           else null end)
+            }]
+          else [] end' response.json > issues.json
+      
+          echo "==== Generierte issues.json ===="
+          cat issues.json
 
 
       - name: Commit and Push Issues Data
