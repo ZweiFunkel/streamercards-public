@@ -90,13 +90,14 @@ jobs:
               title: .content.title,
               number: .content.number,
               url: .content.url,
-              status: (.fieldValues.nodes[]? | select(.field.name == "Status") | .name // "Unbekannt"),
-              priority: (.fieldValues.nodes[]? | select(.field.name == "Priorität") | .name // "Keine"),
-              start_date: (.fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date // "Kein Datum")
+              status: ( [ .fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
+              priority: ( [ .fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
+              start_date: ( [ .fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
           }) else [] end' response.json > issues.json
           
           echo "==== Generierte issues.json ===="
           cat issues.json
+
 
 
       - name: Commit and Push Issues Data
