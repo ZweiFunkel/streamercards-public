@@ -1,103 +1,27 @@
-name: Fetch Issues for Public Scrumboard
+name: Test GitHub GraphQL API
 
 on:
-  schedule:
-    - cron: '*/10 * * * *'  # Läuft alle 10 Minuten
   workflow_dispatch:
 
 jobs:
-  fetch_issues:
+  test_api:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Fetch Issues from GitHub Project
+      - name: Debug Token
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
-          echo "==== Sende API-Anfrage ===="
+          echo "Token Länge: ${#GITHUB_TOKEN}"
+
+      - name: Test API Verbindung
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
+        run: |
           curl -X POST \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               -d @- <<EOF | tee response.json
-          {
-            "query": "query FetchProjectIssues(\$projectId: ID!) {
-              node(id: \$projectId) {
-                ... on ProjectV2 {
-                  items(first: 100) {
-                    nodes {
-                      content {
-                        ... on Issue {
-                          title
-                          number
-                          url
-                          state
-                          createdAt
-                          updatedAt
-                        }
-                      }
-                      fieldValues(first: 20) {
-                        nodes {
-                          __typename
-                          ... on ProjectV2ItemFieldSingleSelectValue {
-                            name
-                            field { name }
-                          }
-                          ... on ProjectV2ItemFieldTextValue {
-                            text
-                            field { name }
-                          }
-                          ... on ProjectV2ItemFieldNumberValue {
-                            number
-                            field { name }
-                          }
-                          ... on ProjectV2ItemFieldDateValue {
-                            date
-                            field { name }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }",
-            "variables": {
-              "projectId": "PVT_kwHOAcHVqM4AzEVA"
-            }
-          }
-          EOF
-          
-          echo "==== API-Response ausgeben ===="
-          cat response.json
+               --url "https://api.github.com/graphql" \
+               -d '{"query": "query { viewer { login } }"}' | tee response.json
 
-      - name: Process API Response and Create issues.json
-        run: |
-          jq 'if .data.node.items.nodes then .data.node.items.nodes | map({
-              title: .content.title,
-              number: .content.number,
-              url: .content.url,
-              state: .content.state,
-              created_at: .content.createdAt,
-              updated_at: .content.updatedAt,
-              status: (.fieldValues.nodes[] | select(.field.name == "Status") | .name),
-              priority: (.fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
-              title_text: (.fieldValues.nodes[] | select(.field.name == "Title") | .text),
-              start_date: (.fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)
-          }) else [] end' response.json > issues.json
-          
-          echo "==== Generierte issues.json ===="
-          cat issues.json
-
-      - name: Commit and Push Issues Data
-        run: |
-          if [ -s issues.json ]; then
-            git config --global user.name "github-actions"
-            git config --global user.email "github-actions@github.com"
-            git add issues.json
-            git commit -m "Updated issues JSON" || echo "No changes to commit"
-            git push
-          else
-            echo "issues.json ist leer, nichts zu committen."
-          fi
+      - name: Zeige API-Response
+        run: cat response.json
