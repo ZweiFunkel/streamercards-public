@@ -20,9 +20,9 @@ jobs:
           curl -X POST \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               --data-raw '{
-                 "query": "{
-                   node(id: \\"PVT_kwHOAcHVqM4AzEVA\\") {
+               -d '{
+                 "query": "query FetchProjectIssues($projectId: ID!) {
+                   node(id: $projectId) {
                      ... on ProjectV2 {
                        items(first: 100) {
                          nodes {
@@ -58,7 +58,10 @@ jobs:
                        }
                      }
                    }
-                 }"
+                 }",
+                 "variables": {
+                   "projectId": "PVT_kwHOAcHVqM4AzEVA"
+                 }
                }' https://api.github.com/graphql | tee response.json
           
           echo "==== API-Response ausgeben ===="
