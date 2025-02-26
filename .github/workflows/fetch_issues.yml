@@ -141,8 +141,8 @@ jobs:
             }]
           else [] end' response.json > issues.json
         
-        echo "==== Generierte issues.json ===="
-        cat issues.json
+          echo "==== Generierte issues.json ===="
+          cat issues.json
 
 
 
