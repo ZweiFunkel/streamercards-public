@@ -20,7 +20,7 @@ jobs:
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
                -d '{
-                  "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } fieldValues(first: 20) { nodes { name field { name } } } } } } } }"
+                  "query": "{ node(id: \"PVT_kwHOAcHVqM4AzEVA\") { ... on ProjectV2 { items(first: 100) { nodes { content { ... on Issue { title number url } } fieldValues(first: 20) { nodes { __typename ... on ProjectV2ItemFieldSingleSelectValue { name field { name } } ... on ProjectV2ItemFieldTextValue { text field { name } } ... on ProjectV2ItemFieldNumberValue { number field { name } } ... on ProjectV2ItemFieldDateValue { date field { name } } } } } } } }"
                 }' \
                 https://api.github.com/graphql | tee response.json
           
@@ -34,7 +34,9 @@ jobs:
               number: .content.number,
               url: .content.url,
               status: (.fieldValues.nodes[] | select(.field.name == "Status") | .name),
-              priority: (.fieldValues.nodes[] | select(.field.name == "Priorität") | .name)
+              priority: (.fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
+              title_text: (.fieldValues.nodes[] | select(.field.name == "Title") | .text),
+              start_date: (.fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)
           }) else [] end' response.json > issues.json
           
           echo "==== Generierte issues.json ===="
