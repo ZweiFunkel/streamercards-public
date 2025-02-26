@@ -20,49 +20,51 @@ jobs:
           curl -X POST \
                -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               -d '{
-                 "query": "query FetchProjectIssues($projectId: ID!) {
-                   node(id: $projectId) {
-                     ... on ProjectV2 {
-                       items(first: 100) {
-                         nodes {
-                           content {
-                             ... on Issue {
-                               title
-                               number
-                               url
-                             }
-                           }
-                           fieldValues(first: 20) {
-                             nodes {
-                               __typename
-                               ... on ProjectV2ItemFieldSingleSelectValue {
-                                 name
-                                 field { name }
-                               }
-                               ... on ProjectV2ItemFieldTextValue {
-                                 text
-                                 field { name }
-                               }
-                               ... on ProjectV2ItemFieldNumberValue {
-                                 number
-                                 field { name }
-                               }
-                               ... on ProjectV2ItemFieldDateValue {
-                                 date
-                                 field { name }
-                               }
-                             }
-                           }
-                         }
-                       }
-                     }
-                   }
-                 }",
-                 "variables": {
-                   "projectId": "PVT_kwHOAcHVqM4AzEVA"
-                 }
-               }' https://api.github.com/graphql | tee response.json
+               -d @- <<EOF | tee response.json
+          {
+            "query": "query FetchProjectIssues(\$projectId: ID!) {
+              node(id: \$projectId) {
+                ... on ProjectV2 {
+                  items(first: 100) {
+                    nodes {
+                      content {
+                        ... on Issue {
+                          title
+                          number
+                          url
+                        }
+                      }
+                      fieldValues(first: 20) {
+                        nodes {
+                          __typename
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            name
+                            field { name }
+                          }
+                          ... on ProjectV2ItemFieldTextValue {
+                            text
+                            field { name }
+                          }
+                          ... on ProjectV2ItemFieldNumberValue {
+                            number
+                            field { name }
+                          }
+                          ... on ProjectV2ItemFieldDateValue {
+                            date
+                            field { name }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }",
+            "variables": {
+              "projectId": "PVT_kwHOAcHVqM4AzEVA"
+            }
+          }
+          EOF
           
           echo "==== API-Response ausgeben ===="
           cat response.json
