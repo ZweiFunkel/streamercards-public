@@ -1,88 +1,77 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #ffffff;
+    background-color: #181818;
+    color: white;
     text-align: center;
-    margin: 0;
-    padding: 0;
 }
 
 h1 {
-    margin: 20px 0;
+    margin: 20px;
+    font-size: 28px;
 }
 
 #board {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-around;
     padding: 20px;
-    overflow-x: auto;
 }
 
 .column {
-    background-color: #1e1e1e;
-    border-radius: 8px;
+    width: 14%;
+    background-color: #252525;
+    border-radius: 10px;
     padding: 10px;
-    width: 250px;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
 }
 
-h2 {
-    text-align: center;
+.column h2 {
+    font-size: 18px;
+    padding: 10px;
     background-color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
 }
 
-.task-list {
-    flex-grow: 1;
-    padding: 5px;
-    overflow-y: auto;
+.issues {
+    min-height: 200px;
+    margin-top: 10px;
 }
 
 .issue {
-    background-color: #2b2b2b;
+    background-color: #2a2a2a;
     padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-    text-align: left;
-    cursor: grab;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    margin: 8px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
-.issue-header {
-    font-weight: bold;
+.issue:hover {
+    transform: scale(1.05);
+    background-color: #333;
 }
 
-.issue-info {
-    font-size: 12px;
-    margin-top: 5px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+/* Modal-Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
 }
 
-.status {
-    font-weight: bold;
-    padding: 3px 5px;
-    border-radius: 4px;
+.modal-content {
+    background-color: #252525;
+    padding: 20px;
+    border-radius: 8px;
+    width: 40%;
 }
 
-.status.geplant { background-color: #62b4ff; }
-.status.konzeptionierung { background-color: #f0c808; }
-.status.in-bearbeitung { background-color: #ff9000; }
-.status.im-test { background-color: #a678ff; }
-.status.beta-testphase { background-color: #ffb400; }
-.status.abgeschlossen { background-color: #28a745; }
-.status.ungueltig { background-color: #dc3545; }
-
-.priority {
-    color: #ff6363;
-}
-
-.date {
-    color: #ffa500;
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
 }
