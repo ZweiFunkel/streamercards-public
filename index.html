@@ -7,39 +7,37 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="kanban-board">
-        <!-- Spalten für Status -->
-        <div class="kanban-column" data-status="Geplant">
-            <h2><span class="status-dot planned"></span> Geplant</h2>
-            <div class="kanban-cards" id="Geplant"></div>
+    <div class="kanban-container">
+        <div class="kanban-header">
+            <h1>Streamercards Kanban Board</h1>
         </div>
-        <div class="kanban-column" data-status="Konzeptionierung">
-            <h2><span class="status-dot concept"></span> Konzeptionierung</h2>
-            <div class="kanban-cards" id="Konzeptionierung"></div>
-        </div>
-        <div class="kanban-column" data-status="In Bearbeitung">
-            <h2><span class="status-dot in-progress"></span> In Bearbeitung</h2>
-            <div class="kanban-cards" id="In Bearbeitung"></div>
-        </div>
-        <div class="kanban-column" data-status="Im Test">
-            <h2><span class="status-dot testing"></span> Im Test</h2>
-            <div class="kanban-cards" id="Im Test"></div>
-        </div>
-        <div class="kanban-column" data-status="Beta-Testphase">
-            <h2><span class="status-dot beta"></span> Beta-Testphase</h2>
-            <div class="kanban-cards" id="Beta-Testphase"></div>
-        </div>
-        <div class="kanban-column" data-status="Abgeschlossen">
-            <h2><span class="status-dot completed"></span> Abgeschlossen</h2>
-            <div class="kanban-cards" id="Abgeschlossen"></div>
-        </div>
-        <div class="kanban-column" data-status="Ungültig">
-            <h2><span class="status-dot invalid"></span> Ungültig</h2>
-            <div class="kanban-cards" id="Ungültig"></div>
-        </div>
-        <div class="kanban-column" data-status="Fehlerhaft">
-            <h2><span class="status-dot faulty"></span> Fehlerhaft</h2>
-            <div class="kanban-cards" id="Fehlerhaft"></div>
+        
+        <div class="kanban-board">
+            <!-- Spalten für Status -->
+            <div class="kanban-column" data-status="Geplant">
+                <h2><span class="status-dot planned"></span> Geplant</h2>
+                <div class="kanban-cards" id="Geplant"></div>
+            </div>
+            <div class="kanban-column" data-status="Konzeptionierung">
+                <h2><span class="status-dot concept"></span> Konzeptionierung</h2>
+                <div class="kanban-cards" id="Konzeptionierung"></div>
+            </div>
+            <div class="kanban-column" data-status="In Bearbeitung">
+                <h2><span class="status-dot in-progress"></span> In Bearbeitung</h2>
+                <div class="kanban-cards" id="In Bearbeitung"></div>
+            </div>
+            <div class="kanban-column" data-status="Im Test">
+                <h2><span class="status-dot testing"></span> Im Test</h2>
+                <div class="kanban-cards" id="Im Test"></div>
+            </div>
+            <div class="kanban-column" data-status="Beta-Testphase">
+                <h2><span class="status-dot beta"></span> Beta-Testphase</h2>
+                <div class="kanban-cards" id="Beta-Testphase"></div>
+            </div>
+            <div class="kanban-column" data-status="Abgeschlossen">
+                <h2><span class="status-dot completed"></span> Abgeschlossen</h2>
+                <div class="kanban-cards" id="Abgeschlossen"></div>
+            </div>
         </div>
     </div>
 
@@ -55,7 +53,7 @@
             <p><strong>Autor:</strong> <img id="issueAuthorAvatar" class="avatar"> <span id="issueAuthor"></span></p>
             <p><strong>Erstellt am:</strong> <span id="issueCreatedAt"></span></p>
             <p><strong>Letzte Änderung:</strong> <span id="issueUpdatedAt"></span></p>
-            <a id="issueLink" href="#" target="_blank">GitHub Issue öffnen</a>
+            <a id="issueLink" href="#" target="_blank" class="issue-link">GitHub Issue öffnen</a>
         </div>
     </div>
 
