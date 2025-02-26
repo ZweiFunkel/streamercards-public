@@ -10,36 +10,46 @@ async function fetchIssues() {
 
 function displayIssues(issues) {
     const columns = {
-        "Geplant": document.getElementById("geplant"),
-        "Konzeptionierung": document.getElementById("konzeptionierung"),
-        "In Bearbeitung": document.getElementById("in-bearbeitung"),
-        "Im Test": document.getElementById("im-test"),
-        "Beta-/Testphase": document.getElementById("beta-testphase"),
-        "Abgeschlossen": document.getElementById("abgeschlossen"),
-        "Ungültig": document.getElementById("ungueltig")
+        "Geplant": document.querySelector("#geplant .task-list"),
+        "Konzeptionierung": document.querySelector("#konzeptionierung .task-list"),
+        "In Bearbeitung": document.querySelector("#in-bearbeitung .task-list"),
+        "Im Test": document.querySelector("#im-test .task-list"),
+        "Beta-/Testphase": document.querySelector("#beta-testphase .task-list"),
+        "Abgeschlossen": document.querySelector("#abgeschlossen .task-list"),
+        "Ungültig": document.querySelector("#ungueltig .task-list")
     };
 
-    Object.values(columns).forEach(column => column.innerHTML = "<h2>" + column.id.replace("-", " ") + "</h2>");
+    Object.values(columns).forEach(column => column.innerHTML = "");
 
     issues.forEach(issue => {
         const issueDiv = document.createElement("div");
         issueDiv.className = "issue";
+        issueDiv.draggable = true;
+        issueDiv.ondragstart = (event) => event.dataTransfer.setData("text", issue.number);
         issueDiv.innerHTML = `
             <div class="issue-header">
-                <a href="${issue.url}" target="_blank">#${issue.number}: ${issue.title}</a>
+                <a href="${issue.url}" target="_blank">#${issue.number} ${issue.title}</a>
             </div>
             <div class="issue-info">
-                <span class="status">${issue.status}</span>
+                <span class="status ${issue.status.toLowerCase()}">${issue.status}</span>
                 <span class="priority">${issue.priority}</span>
                 <span class="date">${issue.start_date}</span>
             </div>
         `;
-        issueDiv.onclick = () => window.open(issue.url, "_blank");
-
         if (columns[issue.status]) {
             columns[issue.status].appendChild(issueDiv);
         }
     });
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+}
+
+function drop(event) {
+    event.preventDefault();
+    const issueNumber = event.dataTransfer.getData("text");
+    console.log(`Issue ${issueNumber} wurde verschoben.`);
 }
 
 fetchIssues();
