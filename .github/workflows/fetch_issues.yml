@@ -1,6 +1,8 @@
-name: Fetch Issues from GitHub Project
+name: Fetch Issues for Public Scrumboard
 
 on:
+  schedule:
+    - cron: '*/10 * * * *'  # Läuft alle 10 Minuten
   workflow_dispatch:
 
 jobs:
@@ -82,5 +84,28 @@ jobs:
                --url "https://api.github.com/graphql" \
                --data @query.json | tee response.json
 
-      - name: Zeige API-Response
-        run: cat response.json
+      - name: Process API Response and Create issues.json
+        run: |
+          jq 'if .data.node.items.nodes then .data.node.items.nodes | map({
+              title: .content.title,
+              number: .content.number,
+              url: .content.url,
+              status: (.fieldValues.nodes[] | select(.field.name == "Status") | .name),
+              priority: (.fieldValues.nodes[] | select(.field.name == "Priorität") | .name),
+              start_date: (.fieldValues.nodes[] | select(.field.name == "Start-Datum") | .date)
+          }) else [] end' response.json > issues.json
+          
+          echo "==== Generierte issues.json ===="
+          cat issues.json
+
+      - name: Commit and Push Issues Data
+        run: |
+          if [ -s issues.json ]; then
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+            git add issues.json
+            git commit -m "Updated issues JSON" || echo "No changes to commit"
+            git push
+          else
+            echo "issues.json ist leer, nichts zu committen."
+          fi
