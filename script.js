@@ -27,9 +27,7 @@ function loadIssues() {
     issues.forEach(issue => {
         const card = document.createElement("div");
         card.className = "kanban-card";
-        card.innerHTML = `
-            <small>#${issue.number}</small> <strong>${issue.title}</strong>
-        `;
+        card.innerHTML = `<small>#${issue.number}</small> <strong>${issue.title}</strong>`;
         card.onclick = () => showIssueDetails(issue);
         document.getElementById(issue.status).appendChild(card);
     });
@@ -37,14 +35,6 @@ function loadIssues() {
 
 function showIssueDetails(issue) {
     document.getElementById("issueTitle").textContent = issue.title;
-    document.getElementById("issueNumber").textContent = issue.number;
-    document.getElementById("issueStatus").textContent = issue.status;
-    document.getElementById("issuePriority").textContent = issue.priority;
-    document.getElementById("issueStartDate").textContent = issue.start_date;
-    document.getElementById("issueAuthor").textContent = issue.author.login;
-    document.getElementById("issueAuthorAvatar").src = issue.author.avatar_url;
-    document.getElementById("issueCreatedAt").textContent = issue.created_at;
-    document.getElementById("issueUpdatedAt").textContent = issue.updated_at;
     document.getElementById("issueLink").href = issue.url;
     document.getElementById("issueDetailsOverlay").style.display = "flex";
 }
