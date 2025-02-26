@@ -101,29 +101,49 @@ jobs:
 
       - name: Process API Response and Create issues.json
         run: |
-          jq 'if .data.node.items.nodes then 
-          .data.node.items.nodes | map({
-              title: .content.title,
-              number: .content.number,
-              url: .content.url,
-              state: .content.state,  # NEU: Issue-Status (Open, Closed)
-              created_at: .content.createdAt,  # NEU: Erstellungsdatum
-              updated_at: .content.updatedAt,  # NEU: Letzte Aktualisierung
+          jq 'if .data.repository.issues.nodes then 
+            .data.repository.issues.nodes | map({
+              title: .title,
+              number: .number,
+              url: .url,
+              state: .state,
+              created_at: .createdAt,
+              updated_at: .updatedAt,
               author: {
-                login: .content.author.login,
-                avatar_url: .content.author.avatarUrl
+                login: .author.login,
+                avatar_url: .author.avatarUrl
               },
-              assignees: ( [ .content.assignees.nodes[]? | { login: .login, avatar_url: .avatarUrl } ] // [] ),
-              labels: ( [ .content.labels.nodes[]? | { name: .name, color: .color } ] // [] ),
-              milestone: (if .content.milestone then { title: .content.milestone.title, due_on: .content.milestone.dueOn } else null end),
-              status: ( [ .fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
-              priority: ( [ .fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
-              start_date: ( [ .fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
-            }) 
+              assignees: ( [ .assignees.nodes[]? | { login: .login, avatar_url: .avatarUrl } ] // [] ),
+              labels: ( [ .labels.nodes[]? | { name: .name, color: .color } ] // [] ),
+              milestone: (if .milestone then { title: .milestone.title, due_on: .milestone.dueOn } else null end),
+              status: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
+              priority: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
+              start_date: ( [ .projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
+            })
+          elif .data.repository.issue then 
+            [{
+              title: .data.repository.issue.title,
+              number: .data.repository.issue.number,
+              url: .data.repository.issue.url,
+              state: .data.repository.issue.state,
+              created_at: .data.repository.issue.createdAt,
+              updated_at: .data.repository.issue.updatedAt,
+              author: {
+                login: .data.repository.issue.author.login,
+                avatar_url: .data.repository.issue.author.avatarUrl
+              },
+              assignees: ( [ .data.repository.issue.assignees.nodes[]? | { login: .login, avatar_url: .avatarUrl } ] // [] ),
+              labels: ( [ .data.repository.issue.labels.nodes[]? | { name: .name, color: .color } ] // [] ),
+              milestone: (if .data.repository.issue.milestone then { title: .data.repository.issue.milestone.title, due_on: .data.repository.issue.milestone.dueOn } else null end),
+              status: ( [ .data.repository.issue.projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Status") | .name ] | join(", ") // "Unbekannt"),
+              priority: ( [ .data.repository.issue.projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Priorität") | .name ] | join(", ") // "Keine"),
+              start_date: ( [ .data.repository.issue.projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
+            }]
           else [] end' response.json > issues.json
-      
-          echo "==== Generierte issues.json ===="
-          cat issues.json
+        
+        echo "==== Generierte issues.json ===="
+        cat issues.json
+
 
 
 
