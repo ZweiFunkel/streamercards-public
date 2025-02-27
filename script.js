@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     // Kleiner Untertitel / Beschreibung (optional)
     const columnSubtext = document.createElement("p");
-    columnSubtext.textContent = `Befindet sich in der ${columnData.title.toLowerCase()}.`;
+    columnSubtext.textContent = `Aufgabe befindet sich im Status ${columnData.title.toLowerCase()}.`;
     column.appendChild(columnSubtext);
 
     // Alle Issues durchgehen und zuordnen, die denselben Status haben
