@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Fetch Issue Details from GitHub
+      - name: Fetch Issues from GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.PAGE_GITHUB }}
         run: |
@@ -22,63 +22,65 @@ jobs:
                -H "Content-Type: application/json" \
                -d @- <<EOF | tee response.json
           {
-            "query": "query GetIssueDetails(\$owner: String!, \$repo: String!, \$issueNumber: Int!) {
+            "query": "query GetIssues($owner: String!, $repo: String!) {
               repository(owner: \$owner, name: \$repo) {
-                issue(number: \$issueNumber) {
-                  title
-                  number
-                  url
-                  state
-                  createdAt
-                  updatedAt
-                  closedAt
-                  body
-                  author {
-                    login
-                    avatarUrl
-                  }
-                  assignees(first: 5) {
-                    nodes {
+                issues(first: 10, states: OPEN) {
+                  nodes {
+                    title
+                    number
+                    url
+                    state
+                    createdAt
+                    updatedAt
+                    closedAt
+                    body
+                    author {
                       login
                       avatarUrl
                     }
-                  }
-                  labels(first: 10) {
-                    nodes {
-                      name
-                      color
+                    assignees(first: 5) {
+                      nodes {
+                        login
+                        avatarUrl
+                      }
                     }
-                  }
-                  milestone {
-                    title
-                    dueOn
-                  }
-                  projectItems(first: 5) {
-                    nodes {
-                      fieldValues(first: 10) {
-                        nodes {
-                          __typename
-                          ... on ProjectV2ItemFieldSingleSelectValue {
-                            name
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                    labels(first: 10) {
+                      nodes {
+                        name
+                        color
+                      }
+                    }
+                    milestone {
+                      title
+                      dueOn
+                    }
+                    projectItems(first: 5) {
+                      nodes {
+                        fieldValues(first: 10) {
+                          nodes {
+                            __typename
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
-                          }
-                          ... on ProjectV2ItemFieldTextValue {
-                            text
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                            ... on ProjectV2ItemFieldTextValue {
+                              text
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
-                          }
-                          ... on ProjectV2ItemFieldDateValue {
-                            date
-                            field {
-                              ... on ProjectV2FieldCommon {
-                                name
+                            ... on ProjectV2ItemFieldDateValue {
+                              date
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                }
                               }
                             }
                           }
@@ -91,12 +93,11 @@ jobs:
             }",
             "variables": {
               "owner": "twodarkk",
-              "repo": "streamercards",
-              "issueNumber": 29
+              "repo": "streamercards"
             }
           }
           EOF
-
+      
           echo "==== API-Response ausgeben ===="
           cat response.json
 
