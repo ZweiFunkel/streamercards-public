@@ -95,6 +95,30 @@ function showIssueDetails(issue) {
   document.getElementById("issue-start-date").textContent =
     issue.start_date || "Kein Datum";
 
+    // Kommentare laden
+  const commentsContainer = document.getElementById("comments-list");
+  commentsContainer.innerHTML = ""; // Vorherige Kommentare löschen
+
+  if (issue.comments.length > 0) {
+    issue.comments.forEach(comment => {
+      const commentEl = document.createElement("div");
+      commentEl.classList.add("comment");
+
+      commentEl.innerHTML = `
+        <div class="comment-header">
+          <img src="${comment.avatar_url}" alt="${comment.author}" width="20" height="20">
+          <strong>${comment.author}</strong> <span>${new Date(comment.created_at).toLocaleString()}</span>
+        </div>
+        <div class="comment-body">${comment.body.replace(/\n/g, "<br>")}</div>
+      `;
+
+      commentsContainer.appendChild(commentEl);
+    });
+  } else {
+    commentsContainer.innerHTML = "<p>Keine Kommentare vorhanden.</p>";
+  }
+
+
   // Link
   const linkEl = document.getElementById("issue-link");
   linkEl.href = issue.url;
