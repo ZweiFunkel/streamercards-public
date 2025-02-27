@@ -34,7 +34,7 @@ jobs:
                     updatedAt
                     closedAt
                     body
-                    comments(first: 20) {  # ✅ Kommentare
+                    comments(first: 20) {
                       nodes {
                         author {
                           login
@@ -122,7 +122,7 @@ jobs:
               created_at: .createdAt,
               updated_at: .updatedAt,
               body: .body,
-              comments: ( [ .comments.nodes[]? | {  # ✅ Fix: Direkt aus .comments.nodes extrahieren
+              comments: ( [ .comments.nodes[]? | {
                 author: .author.login,
                 avatar_url: .author.avatarUrl,
                 created_at: .createdAt,
