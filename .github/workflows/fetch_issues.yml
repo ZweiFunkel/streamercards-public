@@ -34,6 +34,12 @@ jobs:
                     updatedAt
                     closedAt
                     body
+                    comments(first: 20) {  # ✅ Kommentare
+                    nodes {
+                      author {
+                        login
+                        avatarUrl
+                      }
                     author {
                       login
                       avatarUrl
@@ -112,6 +118,12 @@ jobs:
               created_at: .createdAt,
               updated_at: .updatedAt,
               body: .body,
+              comments: ( [ .comments.nodes[]? | {  # ✅ Fix: Direkt aus .comments.nodes extrahieren
+                author: .author.login,
+                avatar_url: .author.avatarUrl,
+                created_at: .createdAt,
+                body: .body
+              }] // []),
               author: {
                 login: .author.login,
                 avatar_url: .author.avatarUrl
@@ -132,6 +144,12 @@ jobs:
               created_at: .data.repository.issue.createdAt,
               updated_at: .data.repository.issue.updatedAt,
               body: .data.repository.issue.body,
+              comments: ( [ .data.repository.issue.comments.nodes[]? | { 
+                author: .author.login,
+                avatar_url: .author.avatarUrl,
+                created_at: .createdAt,
+                body: .body
+              }] // []),
               author: {
                 login: .data.repository.issue.author.login,
                 avatar_url: .data.repository.issue.author.avatarUrl
@@ -144,6 +162,7 @@ jobs:
               start_date: ( [ .data.repository.issue.projectItems.nodes[].fieldValues.nodes[]? | select(.field.name == "Start-Datum") | .date ] | join(", ") // "Kein Datum")
             }]
           else [] end' response.json > issues.json
+
         
           echo "==== Generierte issues.json ===="
           cat issues.json
