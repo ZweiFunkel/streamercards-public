@@ -110,6 +110,7 @@ jobs:
               state: .state,
               created_at: .createdAt,
               updated_at: .updatedAt,
+              body: .body,
               author: {
                 login: .author.login,
                 avatar_url: .author.avatarUrl
@@ -129,6 +130,7 @@ jobs:
               state: .data.repository.issue.state,
               created_at: .data.repository.issue.createdAt,
               updated_at: .data.repository.issue.updatedAt,
+              updated_at: .data.repository.issue.body,
               author: {
                 login: .data.repository.issue.author.login,
                 avatar_url: .data.repository.issue.author.avatarUrl
