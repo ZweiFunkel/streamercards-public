@@ -32,6 +32,7 @@ jobs:
                   createdAt
                   updatedAt
                   closedAt
+                  body
                   author {
                     login
                     avatarUrl
