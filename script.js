@@ -50,6 +50,7 @@ function showIssueDetails(issue) {
     document.getElementById("issue-status").classList.add(`status-${issue.status.toLowerCase().replace(/ /g, "-")}`);
     document.getElementById("issue-author-avatar").src = issue.author.avatar_url;
     document.getElementById("issue-author").textContent = issue.author.login;
+    document.getElementById("issue-body").textContent = issue.body;
     document.getElementById("issue-created").textContent = new Date(issue.created_at).toLocaleDateString();
     document.getElementById("issue-updated").textContent = new Date(issue.updated_at).toLocaleDateString();
     document.getElementById("issue-milestone").textContent = issue.milestone?.title || "Kein Meilenstein";
