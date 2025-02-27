@@ -71,7 +71,7 @@ function showIssueDetails(issue) {
   document.getElementById("issue-author").textContent = issue.author.login;
 
   // Body
-  document.getElementById("issue-body").textContent = issue.body;
+  document.getElementById("issue-body").innerHTML = issue.body.replace(/\n/g, "<br>");
 
   // Daten
   const createdDate = new Date(issue.created_at).toLocaleDateString();
