@@ -35,11 +35,15 @@ jobs:
                     closedAt
                     body
                     comments(first: 20) {  # ✅ Kommentare
-                    nodes {
-                      author {
-                        login
-                        avatarUrl
+                      nodes {
+                        author {
+                          login
+                          avatarUrl
+                        }
+                        body
+                        createdAt
                       }
+                    }
                     author {
                       login
                       avatarUrl
