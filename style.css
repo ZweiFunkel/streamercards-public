@@ -1,111 +1,283 @@
-/* Allgemeines Styling */
+/* ========== RESET / GRUNDSTILE ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    background-color: #0D1117;
-    color: #C9D1D9;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
+  font-family: 'Inter', sans-serif;
+  display: flex; /* Damit Sidebar und Main nebeneinander liegen */
+  min-height: 100vh;
+  background: #f6f8fb; 
+  color: #2e2e2e;
 }
 
-h1 {
-    text-align: center;
+/* ========== SIDEBAR ========== */
+.sidebar {
+  width: 240px;
+  background: #ffffff;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
-/* Kanban-Board */
-#kanban-board {
-    display: flex;
-    flex-direction: column;
+.sidebar-logo {
+  margin-bottom: 30px;
 }
 
-#columns {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 10px;
+.sidebar-logo h2 {
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
+.sidebar-nav a {
+  display: block;
+  padding: 10px 0;
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 5px 0;
+  transition: color 0.2s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  color: #4F46E5; /* Primärfarbe für Hover/Aktive Links */
+}
+
+/* ========== HAUPTBEREICH ========== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== TOPBAR ========== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.search input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-task {
+  background: #4F46E5;
+  border: none;
+  color: #ffffff;
+  padding: 8px 12px;
+  margin-right: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-add-task:hover {
+  background: #4338CA;
+}
+
+.avatar img {
+  border-radius: 50%;
+}
+
+/* ========== KANBAN-BEREICH ========== */
+.kanban {
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+  padding: 20px;
+  overflow-x: hidden; /* Evtl. anpassen, falls horizontales Scrollen erwünscht ist */
+}
+
+.kanban h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.kanban-columns {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+/* Spalten */
 .column {
-    background-color: #161B22;
-    padding: 10px;
-    width: 220px;
-    border-radius: 5px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  width: 300px; /* Spaltenbreite */
+  flex-shrink: 0; /* Verhindert, dass Spalten zu schmal werden */
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
 }
 
 .column h2 {
-    font-size: 16px;
-    color: white;
-    margin-bottom: 5px;
+  background: #fafafa;
+  padding: 15px;
+  margin: 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .column p {
-    font-size: 12px;
-    color: gray;
-    margin: 0;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 0 15px 10px 15px;
 }
 
+/* Issue-Karte */
 .issue-card {
-    background-color: #21262D;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  background-color: #fff;
+  margin: 8px 15px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-left: 4px solid #4F46E5; /* Farbakzent links */
 }
 
 .issue-card:hover {
-    background-color: #30363D;
+  background-color: #f3f4f6;
 }
 
-/* Issue-Details */
+.issue-card span {
+  margin: 0 5px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.issue-card img {
+  border-radius: 50%;
+}
+
+/* ========== ISSUE-DETAILS (rechte Seitenleiste) ========== */
 #issue-details {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 350px;
-    height: 100vh;
-    background-color: #161B22;
-    padding: 20px;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-left: 1px solid #eee;
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  transition: transform 0.3s;
 }
 
+/* Wenn ausgeblendet, verschieben wir das Panel aus dem Sichtbereich */
 #issue-details.hidden {
-    display: none;
+  transform: translateX(100%);
 }
 
-#close-issue {
-    float: right;
-    border: none;
-    background: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
+#issue-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-#issue-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.close-button {
+  float: right;
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
-#issue-meta img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+#issue-title {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
 
 #issue-status {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-/* Status-Farben */
-.status-geplant { background: blue; }
-.status-in-bearbeitung { background: orange; }
-.status-abgeschlossen { background: green; }
-.status-ungültig { background: red; }
+#issue-body {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+}
 
+#issue-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#issue-meta img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#issue-dates p {
+  margin: 5px 0;
+  font-size: 0.85rem;
+}
+
+#issue-labels,
+#issue-priority,
+#issue-start-date {
+  font-weight: 500;
+}
+
+#issue-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #4F46E5;
+  text-decoration: none;
+}
+#issue-link:hover {
+  text-decoration: underline;
+}
+
+/* ========== STATUS-FARBEN ========== */
+.status-geplant {
+  background: #3b82f6; /* Blau */
+}
+.status-konzeptionierung {
+  background: #fbbf24; /* Gelb */
+}
+.status-in-bearbeitung {
+  background: #f97316; /* Orange */
+}
+.status-im-test {
+  background: #8b5cf6; /* Lila */
+}
+.status-beta-testphase {
+  background: #d97706; /* dunkles Gold */
+}
+.status-abgeschlossen {
+  background: #22c55e; /* Grün */
+}
+.status-ungültig {
+  background: #ef4444; /* Rot */
+}
