@@ -1,41 +1,81 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanban Board</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Streamercards Kanban Board</title>
+  <!-- Google Fonts (z.B. Inter für das "Managemate"-Feeling) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="kanban-board">
-        <h1>Streamercards Kanban Board</h1>
-        <div id="columns">
-            <!-- Spalten werden durch JS generiert -->
-        </div>
-    </div>
 
-    <div id="issue-details" class="hidden">
-        <div id="issue-content">
-            <button id="close-issue">✖</button>
-            <h2 id="issue-title"></h2>
-            <span id="issue-status"></span>
-            <p id="issue-body"></p>
-            <div id="issue-meta">
-                <img id="issue-author-avatar" alt="Author Avatar">
-                <span id="issue-author"></span>
-            </div>
-            <div id="issue-dates">
-                <p><strong>Erstellt:</strong> <span id="issue-created"></span></p>
-                <p><strong>Letzte Aktualisierung:</strong> <span id="issue-updated"></span></p>
-                <p><strong>Meilenstein:</strong> <span id="issue-milestone"></span></p>
-            </div>
-            <p><strong>Labels:</strong> <span id="issue-labels"></span></p>
-            <p><strong>Priorität:</strong> <span id="issue-priority"></span></p>
-            <p><strong>Start-Datum:</strong> <span id="issue-start-date"></span></p>
-            <a id="issue-link" href="#" target="_blank">Auf GitHub ansehen</a>
-        </div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Streamercards</h2>
     </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Tasks</a>
+      <a href="#">Settings</a>
+    </nav>
+  </aside>
 
-    <script src="script.js"></script>
+  <!-- Hauptbereich -->
+  <div class="main-content">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="search">
+        <input type="text" placeholder="Search..."/>
+      </div>
+      <div class="topbar-actions">
+        <!-- Beispiel-Button oder Avatar -->
+        <button class="btn-add-task">+ Add Task</button>
+        <div class="avatar">
+          <img src="https://via.placeholder.com/32" alt="User"/>
+        </div>
+      </div>
+    </header>
+
+    <!-- Kanban-Board -->
+    <section class="kanban" id="kanban-board">
+      <h1>Streamercards Kanban Board</h1>
+      <div id="columns" class="kanban-columns">
+        <!-- Spalten und Issues werden via script.js generiert -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Issue-Details (rechte Seitenleiste) -->
+  <div id="issue-details" class="hidden">
+    <div id="issue-content">
+      <button id="close-issue" class="close-button">✖</button>
+      <h2 id="issue-title"></h2>
+      <span id="issue-status"></span>
+      <p id="issue-body"></p>
+
+      <div id="issue-meta">
+        <img id="issue-author-avatar" alt="Author Avatar">
+        <span id="issue-author"></span>
+      </div>
+
+      <div id="issue-dates">
+        <p><strong>Erstellt:</strong> <span id="issue-created"></span></p>
+        <p><strong>Letzte Aktualisierung:</strong> <span id="issue-updated"></span></p>
+        <p><strong>Meilenstein:</strong> <span id="issue-milestone"></span></p>
+      </div>
+
+      <p><strong>Labels:</strong> <span id="issue-labels"></span></p>
+      <p><strong>Priorität:</strong> <span id="issue-priority"></span></p>
+      <p><strong>Start-Datum:</strong> <span id="issue-start-date"></span></p>
+      <a id="issue-link" href="#" target="_blank">Auf GitHub ansehen</a>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
 </body>
 </html>
