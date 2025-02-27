@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "title": "Profilseite nach Login",
+    "number": 29,
+    "url": "https://github.com/twodarkk/streamercards/issues/29",
+    "state": "OPEN",
+    "created_at": "2025-02-26T15:36:35Z",
+    "updated_at": "2025-02-26T15:41:10Z",
+    "body": "- [ ] Nach erfolgreichem Login wird der Nutzer auf eine Profilseite geleitet.\n- [ ] Profilseite zeigt grundlegende Benutzerinformationen.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Hauptfeature",
+        "color": "0E8A16"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "Wichtig",
+    "start_date": "2025-02-26"
+  },
+  {
+    "title": "Neues Navigationsmenü",
+    "number": 31,
+    "url": "https://github.com/twodarkk/streamercards/issues/31",
+    "state": "OPEN",
+    "created_at": "2025-02-26T15:56:20Z",
+    "updated_at": "2025-02-26T15:56:46Z",
+    "body": "- Menü oben mit folgenden Reitern:\n    - [ ] Meine Streamer (zeigt, wo bereits Energie gesammelt wurde)\n    - [ ] Rangliste (zeigt, wie viele Karten insgesamt pro Streamer gecraftet wurden)\n    - [ ] Streamer (zeigt alle Streamer, die an StreamerCards teilnehmen)\n    - [ ] Home (optional)\n    - [ ] Sprache (DE/EN Umschaltung)",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Hauptfeature",
+        "color": "0E8A16"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Konzeptionierung",
+    "priority": "",
+    "start_date": ""
+  }
+]
