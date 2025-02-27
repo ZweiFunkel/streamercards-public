@@ -22,7 +22,7 @@ jobs:
                -H "Content-Type: application/json" \
                -d @- <<EOF | tee response.json
           {
-            "query": "query GetIssues($owner: String!, $repo: String!) {
+            "query": "query GetIssues(\$owner: String!, \$repo: String!) {
               repository(owner: \$owner, name: \$repo) {
                 issues(first: 10, states: OPEN) {
                   nodes {
