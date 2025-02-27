@@ -249,6 +249,34 @@ body {
   font-weight: 500;
 }
 
+#issue-comments {
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.comment {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.comment-header img {
+  border-radius: 50%;
+}
+
+.comment-body {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+
 #issue-link {
   display: inline-block;
   margin-top: 10px;
