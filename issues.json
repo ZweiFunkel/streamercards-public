@@ -104,5 +104,142 @@
     "status": "Konzeptionierung",
     "priority": "",
     "start_date": ""
+  },
+  {
+    "title": "Energiebalken (Fortschrittsanzeige)",
+    "number": 33,
+    "url": "https://github.com/twodarkk/streamercards/issues/33",
+    "state": "OPEN",
+    "created_at": "2025-02-28T21:43:32Z",
+    "updated_at": "2025-02-28T21:43:32Z",
+    "body": "[ ] Balken mit Prozentanzeige in der Mitte, zeigt gesammelte Energie.\n[ ] Cap: 50 Energie (maximal speicherbar).\n[ ] Energie wird automatisch gesammelt: +1 Energie alle 10 Minuten.\n[ ] Energie-Mechanik:\n\n    [ ] 6 Energie = 1 Level 1 Karte craften\n    [ ] 6 Energie = 1 Level 2 Karte craften",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Hauptfeature",
+        "color": "0E8A16"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "",
+    "start_date": ""
+  },
+  {
+    "title": "Kartenanzeige & Crafting",
+    "number": 34,
+    "url": "https://github.com/twodarkk/streamercards/issues/34",
+    "state": "OPEN",
+    "created_at": "2025-02-28T21:48:12Z",
+    "updated_at": "2025-02-28T21:48:12Z",
+    "body": "[ ] Dropdown zur Auswahl von Level 1–3 Karten.\n[ ] Dateiname als Karten-ID (einzigartig, aber nur für Admins sichtbar).\n[ ] Karten werden einer Kollektion (Kategorie) zugeordnet.\n[ ] Kollektionen können ein Ablaufdatum (von/bis) haben.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Adminfeature",
+        "color": "B60205"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Konzeptionierung",
+    "priority": "",
+    "start_date": ""
+  },
+  {
+    "title": "Energie & Crafting-Limitierungen",
+    "number": 35,
+    "url": "https://github.com/twodarkk/streamercards/issues/35",
+    "state": "OPEN",
+    "created_at": "2025-02-28T21:50:49Z",
+    "updated_at": "2025-02-28T21:50:49Z",
+    "body": "[ ] Pro 10 Minuten gibt es 1 Energie.\n[ ] 6 Energie werden benötigt, um eine Karte zu craften.\n[ ] Maximal 50 Energie speicherbar.\n[ ] Gesammelte Karten bleiben dauerhaft sichtbar.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "🃏 Karten-Management",
+        "color": "006B75"
+      },
+      {
+        "name": "Backend",
+        "color": "1D76DB"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "",
+    "start_date": ""
+  },
+  {
+    "title": "Admin-Funktionen für Kartenverwaltung",
+    "number": 36,
+    "url": "https://github.com/twodarkk/streamercards/issues/36",
+    "state": "OPEN",
+    "created_at": "2025-02-28T21:52:46Z",
+    "updated_at": "2025-02-28T21:52:46Z",
+    "body": "[ ] Nur Admins können neue Karten hinzufügen.\n[ ] Admins können Karten-Level und Kollektion verwalten.\n[ ] Karten haben ein optionales Ablaufdatum.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "🃏 Karten-Management",
+        "color": "006B75"
+      },
+      {
+        "name": "Adminfeature",
+        "color": "B60205"
+      }
+    ],
+    "milestone": null,
+    "status": "",
+    "priority": "",
+    "start_date": ""
   }
 ]
