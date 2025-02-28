@@ -214,7 +214,7 @@
     "url": "https://github.com/twodarkk/streamercards/issues/36",
     "state": "OPEN",
     "created_at": "2025-02-28T21:52:46Z",
-    "updated_at": "2025-02-28T21:52:46Z",
+    "updated_at": "2025-02-28T21:52:51Z",
     "body": "[ ] Nur Admins können neue Karten hinzufügen.\n[ ] Admins können Karten-Level und Kollektion verwalten.\n[ ] Karten haben ein optionales Ablaufdatum.",
     "comments": [],
     "author": {
@@ -237,8 +237,41 @@
         "color": "B60205"
       }
     ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Konzeptionierung",
+    "priority": "",
+    "start_date": ""
+  },
+  {
+    "title": "Streamer-Crafting-Alerts für OBS",
+    "number": 37,
+    "url": "https://github.com/twodarkk/streamercards/issues/37",
+    "state": "OPEN",
+    "created_at": "2025-02-28T21:57:29Z",
+    "updated_at": "2025-02-28T21:57:29Z",
+    "body": "[ ] Streamer können einen Benachrichtigungs-Link generieren.\n[ ] Zeigt an, wenn jemand eine Karte gecraftet hat.\n[ ] Kann in OBS/SLOBS als Alert eingebunden werden.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "🔔 Zukünftige Erweiterungen",
+        "color": "B5BD47"
+      }
+    ],
     "milestone": null,
-    "status": "",
+    "status": "Geplant",
     "priority": "",
     "start_date": ""
   }
