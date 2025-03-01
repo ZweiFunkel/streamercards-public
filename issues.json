@@ -281,9 +281,16 @@
     "url": "https://github.com/twodarkk/streamercards/issues/38",
     "state": "OPEN",
     "created_at": "2025-03-01T12:38:05Z",
-    "updated_at": "2025-03-01T12:38:05Z",
+    "updated_at": "2025-03-01T13:03:29Z",
     "body": "Aktuell kann nur maximal 1 Benutzer (auf dem gleichen PC? - öffentlich nicht testbar ohne online Zugriff) gleichzeitig angemeldet sein. Das muss vor Release geklärt sein!",
-    "comments": [],
+    "comments": [
+      {
+        "author": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4",
+        "created_at": "2025-03-01T13:03:28Z",
+        "body": "Problem: Da Twitch seit einiger Zeit anbietet, dass Mails mehrfach verwendet werden können, musste dies auch hier möglich gemacht werden."
+      }
+    ],
     "author": {
       "login": "twodarkk",
       "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
@@ -308,7 +315,7 @@
       "title": "Erste Phase",
       "due_on": "2025-04-15T00:00:00Z"
     },
-    "status": "In Bearbeitung",
+    "status": "Abgeschlossen",
     "priority": "Sehr wichtig!",
     "start_date": "2025-03-01"
   }
