@@ -318,5 +318,58 @@
     "status": "Abgeschlossen",
     "priority": "Sehr wichtig!",
     "start_date": "2025-03-01"
+  },
+  {
+    "title": "Optimierung und Umstellung des Energiesammelns",
+    "number": 39,
+    "url": "https://github.com/twodarkk/streamercards/issues/39",
+    "state": "OPEN",
+    "created_at": "2025-03-06T11:31:17Z",
+    "updated_at": "2025-03-06T11:31:17Z",
+    "body": "Aktuell läuft das Sammeln der Energie und des Botsaufrufes per festgelgtem Streamer.\n\nDas wird abgeändert und ebenso optimiert.\n\nDazu zählt:\n\n- Verbesserung des Aufrufes der Streamchats\n- Standardbot muss eingestellt und dessen Sensible-Daten ausgelagert werden\n- Energieverteilung einrichten und korrekt pro Streamer (aktuell NOCH 1) zuweisen\n- Energieseite erstellen, wo man die Energie pro eingeloggtem User sieht, bei wem man wie viel Energie hat\n- Zukünftig sollen alle \"Streamer-Datensätze\", die 'genehmigt' wurden, beim Bot genutzt werden. Aktuell wird standardmäßig 'nur' \"AciiXx\" als Streamer geprüft. Künftig soll hier jeder Streamer geprüft werden und die Energie pro User pro Streamer zugeordnet werden\nBsp:\n\n> TwoDarkk hat 3 Energie bei AciiXx und 1 Energie bei TheKller gesammelt + AciiXx hat 20 Energie bei TheKller gesammelt\n\n- Klappt das alles, soll der Code verbessert und nach Möglichkeit ausgelagert werden, für eine bessere Ordnung und Strukturierung.",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Neues Feature",
+        "color": "a2eeef"
+      },
+      {
+        "name": "Hauptfeature",
+        "color": "0E8A16"
+      },
+      {
+        "name": "Backend",
+        "color": "1D76DB"
+      },
+      {
+        "name": "🔔 Zukünftige Erweiterungen",
+        "color": "B5BD47"
+      },
+      {
+        "name": "Verbesserung",
+        "color": "5319E7"
+      },
+      {
+        "name": "Refactoring",
+        "color": "FBCA04"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "",
+    "priority": "",
+    "start_date": ""
   }
 ]
