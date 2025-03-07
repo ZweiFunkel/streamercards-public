@@ -412,5 +412,83 @@
     "status": "In Bearbeitung",
     "priority": "Wichtig",
     "start_date": "2025-03-05"
+  },
+  {
+    "title": "Live Updates",
+    "number": 41,
+    "url": "https://github.com/twodarkk/streamercards/issues/41",
+    "state": "OPEN",
+    "created_at": "2025-03-07T10:53:11Z",
+    "updated_at": "2025-03-07T10:53:11Z",
+    "body": "Damit nicht immer alles neugestartet werden muss bei einem Update, muss die Möglichkeit bestehen, dass im laufenen Betrieb Updates installiert werden können:\n\n- [ ] Im Backend\n- [ ] Im Frontend\n\nDies ist für eine Veröffentlichung des Systems unumgänglich, damit die Automatisierungen auch weiterhin laufen (werden dann pausiert und nach dem Update direkt durchgeführt - sofern diese zu der Zeit hätten laufen sollen!)",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Neues Feature",
+        "color": "a2eeef"
+      },
+      {
+        "name": "Backend",
+        "color": "1D76DB"
+      },
+      {
+        "name": "Verbesserung",
+        "color": "5319E7"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Konzeptionierung",
+    "priority": "Sehr wichtig!",
+    "start_date": "2025-03-07"
+  },
+  {
+    "title": "Vor erstem Testrelease: Sicherheits- und Lücken Überprüfung + Tests?",
+    "number": 42,
+    "url": "https://github.com/twodarkk/streamercards/issues/42",
+    "state": "OPEN",
+    "created_at": "2025-03-07T11:04:27Z",
+    "updated_at": "2025-03-07T11:04:27Z",
+    "body": "Vor dem ersten Testrelease muss alles nochmal durchgeprüft werden.\nWie sicher ist es? Kann hierzu ein test erstellt werden, der bei einem Fehlschlag sofort informiert, damit das behoben werden kann!?\n\nKönnen Seiten von außerhalb aufgerufen werden, ohne angemeldet zu sein?\nWie sicher sind Nutzerdaten innerhalb der DB (wichtige Daten sind verschlüsselt), innerhalb der Transaktionen und innerhalb der Webapp?\n\nWie gut und sicher ist die Verschlüsselung? Ist es gut, dass ggf. Restanfragen von außerhalb der Webapp aufrufbar sind?\n\nWIe gut gschützt ist der Linuxserver? Was muss man alles beachten?\nWas sollte bei einem \"Livesystem\" aktiv sein und was nicht? (bspw. auto-updates sind sinnvoll, aber auch bei einem Livesystem?? Was kann noch für mehr Sicherheit dazubeitragen, um Hackangriffe zu vermeiden?\n\nWas mache ich, wenn Hackangriffe kommen? Wie gehe ich damit um? Muss man ggf. was abschließen oder kaufen, wenn ich mit etwas, was nur als Hobbyprojekt gilt, \"Live\" gehe? Was ist, wenn man dort ein \"Abomodell\" mit einfließen lässt für gewisse Sachen?\n\nWelche Seiten sind Pflicht bei Webapps? Was muss ich noch hinzufügen und was muss wo wie gemacht werden, damit die Seite rechtens ist? (Meist Impressum und ähnlich mit einer Angabe, wo man sich melden kann (eine art Ansprechpartner)\n\nuvm. was ich ggf. gerade nicht beachte. ",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Backend",
+        "color": "1D76DB"
+      },
+      {
+        "name": "Verbesserung",
+        "color": "5319E7"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "Sehr wichtig!",
+    "start_date": ""
   }
 ]
