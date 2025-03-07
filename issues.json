@@ -378,8 +378,8 @@
     "url": "https://github.com/twodarkk/streamercards/issues/40",
     "state": "OPEN",
     "created_at": "2025-03-06T11:40:32Z",
-    "updated_at": "2025-03-07T11:42:05Z",
-    "body": "- [ ] Damit mehr Bots genutzt werden können zukünftig, wurde hierfür eine Klasse \"Bot\" erstellt. Hier können in der Zukunft personalisierte Accounts hinzugefügt und genutzt werden.\n- [ ] Verbesserung des Codes (Refactoring kommt zum Schluss)\n- [ ] Der vorhandene sporadische (für Testzwecken) Code muss umgebaut werden, damit pro vorhandener Streamerdatensatz der Chat überprüft werden kann. Hierzu wird auch direkt umgebaut: Ist ein Streamerdatensatz einem Botdatensatz zugewiesen, so wird der zugewiesene Bot benutzt - ansonsten der Standardmäßige \"StreamerCardsDE Bot\" :)\n\n- ggf Verschlüsseln der Standardbotdaten? -> JA, wird auch über Bot geschehen.\n- [ ] Daten des Bots uvm. auf DB-Ebene unter \"Bot\" speichern und ein Feld mit \"Default\" hinzufügen. Somit muss das nicht auf jedem Gerät gepflegt werden\n- [ ] Es muss eine Möglichkeit geben, dass der \"Standardbot\" über die Adminseite und der \"Userbot\" über die Einstellungen pro User hinzugefügt werden kann(dieses Feature wird nachher nur für \"VIPs\" zugänglich gemacht. Daher fehlt:\n- [ ] Neue Rolle: VIP (für Specialpersonen wie bspw. Dhalucard, damit er seinen eigenen Bot nutzen könnte :p )\n- [ ] Neue Rolle: Abonnent (für Abonennten, falls das Feature gewünscht wird für spätere Specials :) )",
+    "updated_at": "2025-03-07T11:54:14Z",
+    "body": "- [ ] Damit mehr Bots genutzt werden können zukünftig, wurde hierfür eine Klasse \"Bot\" erstellt. Hier können in der Zukunft personalisierte Accounts hinzugefügt und genutzt werden.\n- [ ] Verbesserung des Codes (Refactoring kommt zum Schluss)\n- [ ] Der vorhandene sporadische (für Testzwecken) Code muss umgebaut werden, damit pro vorhandener Streamerdatensatz der Chat überprüft werden kann. Hierzu wird auch direkt umgebaut: Ist ein Streamerdatensatz einem Botdatensatz zugewiesen, so wird der zugewiesene Bot benutzt - ansonsten der Standardmäßige \"StreamerCardsDE Bot\" :)\n\n- ggf Verschlüsseln der Standardbotdaten? -> JA, wird auch über Bot geschehen.\n- [ ] Daten des Bots uvm. auf DB-Ebene unter \"Bot\" speichern und ein Feld mit \"Default\" hinzufügen. Somit muss das nicht auf jedem Gerät gepflegt werden\n- [ ] Es muss eine Möglichkeit geben, dass der \"Standardbot\" über die Adminseite und der \"Userbot\" über die Einstellungen pro User hinzugefügt werden kann(dieses Feature könnte nur für \"VIPs\" zugänglich gemacht werden.\n- [ ] Für diese Umsetzung ist es ratsam ein extra Fenster des Browsers zu öffnen, damit man sich dort mit dem Bot verbinden kann :D (Bei einer späteren Umsetzung einer eigenen Bot-Webapp, wird es möglich sein, diese zu importieren, sofern es der gleiche Twitchnutzer ist)\n- Daher fehlt:\n- [ ] Neue Rolle: VIP (für Specialpersonen wie bspw. Dhalucard, damit er seinen eigenen Bot nutzen könnte :p )\n- [ ] Neue Rolle: Abonnent (für Abonennten, falls das Feature gewünscht wird für spätere Specials :) )",
     "comments": [],
     "author": {
       "login": "twodarkk",
@@ -489,6 +489,80 @@
     },
     "status": "Geplant",
     "priority": "Sehr wichtig!",
+    "start_date": ""
+  },
+  {
+    "title": "Meldungen",
+    "number": 43,
+    "url": "https://github.com/twodarkk/streamercards/issues/43",
+    "state": "OPEN",
+    "created_at": "2025-03-07T12:08:58Z",
+    "updated_at": "2025-03-07T12:12:07Z",
+    "body": "Es sollten für gewisse Situationen Meldungen geben.\n\nHierzu ist zzt. schon etwas vorhanden/eingerichtet. Prüfen ob das ausreicht und auch demnach für gewisse Situationen nutzen für mehr Infos an den Nutzer\n\nggf auch Meldungen standardisieren, damit man nicht immer alles doppelt und dreifach macht?",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Verbesserung",
+        "color": "5319E7"
+      },
+      {
+        "name": "Frontend",
+        "color": "D4C5F9"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "Normal",
+    "start_date": ""
+  },
+  {
+    "title": "Session/Cookie/alte anmeldung behalten",
+    "number": 44,
+    "url": "https://github.com/twodarkk/streamercards/issues/44",
+    "state": "OPEN",
+    "created_at": "2025-03-07T12:14:13Z",
+    "updated_at": "2025-03-07T12:14:13Z",
+    "body": "Prüfen ob Session/cookies/alte anmeldung klappt und richtig eingestellt ist, damit das funktional ist",
+    "comments": [],
+    "author": {
+      "login": "twodarkk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+    },
+    "assignees": [
+      {
+        "login": "twodarkk",
+        "avatar_url": "https://avatars.githubusercontent.com/u/29480360?u=07c5161aae77e5d1f214856e240c5c45efb6fc24&v=4"
+      }
+    ],
+    "labels": [
+      {
+        "name": "Backend",
+        "color": "1D76DB"
+      },
+      {
+        "name": "Verbesserung",
+        "color": "5319E7"
+      }
+    ],
+    "milestone": {
+      "title": "Erste Phase",
+      "due_on": "2025-04-15T00:00:00Z"
+    },
+    "status": "Geplant",
+    "priority": "",
     "start_date": ""
   }
 ]
